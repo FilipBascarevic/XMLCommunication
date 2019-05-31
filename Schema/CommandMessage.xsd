@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 rel. 2 (http://www.altova.com) by Ravi Saxena (Raven LLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="BasicTypes.xsd"/>
+	<xs:include schemaLocation="DeviceConfiguration.xsd"/>
+	<xs:include schemaLocation="DeviceDetectionReport.xsd"/>
+	<xs:element name="CommandMessage">
+		<xs:annotation>
+			<xs:documentation>The Command message is used to transmit commands to the device and report command status back.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="DeviceIdentification" type="DeviceIdentificationType">
+					<xs:annotation>
+						<xs:documentation>Identifies the device for which the command is intended.</xs:documentation>
+					</xs:annotation>
+					<xs:key name="CommandMessageDeviceType">
+						<xs:selector xpath="."/>
+						<xs:field xpath="DeviceType"/>
+					</xs:key>
+				</xs:element>
+				<xs:element name="RequestorIdentification" type="DeviceIdentificationType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Identifies the device that issued the command.  This   element must be present whenever generating a Request/Command message.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Command" type="CommandType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The issued command.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SupportedCommands" type="CommandList" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>The list of commands.  This is only used with the Report MessageType</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ICDVersion" type="ICDVersionType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Version of SEIWG ICD being used for standard message formatting.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<!-- RequestorIdentification should be provided whenever generating a Request/Command message -->
+			</xs:sequence>
+			<xs:attributeGroup ref="MessageContext"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- 
+	        
+	-->
+	<xs:complexType name="CommandList">
+		<xs:annotation>
+			<xs:documentation>List of commands - used by device/system to inform other systems 
+			of the commands it can accept.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SimpleCommand" type="SimpleCommandType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="LocationCommand" type="LocationCommandType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="TimeCommand" type="TimeCommandType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="DetectionCommand" type="DetectionCommandType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ExtendedCommand" type="ExtendedCommandType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ACSCommand" type="ACSCommandType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Name" type="xs:string" use="optional"/>
+		<xs:attribute name="Enabled" type="xs:boolean" use="optional"/>
+		<xs:attribute name="RequiresExclusiveControl" type="xs:boolean" use="optional"/>
+	</xs:complexType>
+	<!-- 
+	        
+	-->
+	<xs:complexType name="CommandType">
+		<xs:annotation>
+			<xs:documentation>The type of command.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="SimpleCommand" type="SimpleCommandType"/>
+				<xs:element name="LocationCommand" type="LocationCommandType"/>
+				<xs:element name="TimeCommand" type="TimeCommandType"/>
+				<xs:element name="DetectionCommand" type="DetectionCommandType"/>
+				<xs:element name="ExtendedCommand" type="ExtendedCommandType"/>
+				<xs:element name="ACSCommand" type="ACSCommandType"/>
+				<!--<xs:element name="AlertCommand" type="AlertCommandType"/>-->
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+	        
+	-->
+	<xs:simpleType name="SimpleCommandType">
+		<xs:annotation>
+			<xs:documentation>Enumerated command values.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Access"/>
+			<xs:enumeration value="Acknowledge"/>
+			<xs:enumeration value="Activate"/>
+			<xs:enumeration value="Arm"/>
+			<xs:enumeration value="Assess"/>
+			<xs:enumeration value="Calibrate"/>
+			<xs:enumeration value="Close"/>
+			<xs:enumeration value="CollectClutter"/>
+			<xs:enumeration value="ControlledAreaList"/>
+			<xs:enumeration value="DeleteDevice"/>
+			<xs:enumeration value="Deactivate"/>
+			<xs:enumeration value="Disarm"/>
+			<xs:enumeration value="GetImage"/>
+			<xs:enumeration value="GoTo"/>
+			<xs:enumeration value="GroupList"/>
+			<xs:enumeration value="Lock"/>
+			<xs:enumeration value="Notify"/>
+			<xs:enumeration value="On"/>
+			<xs:enumeration value="Off"/>
+			<xs:enumeration value="Open"/>
+			<xs:enumeration value="Park"/>
+			<xs:enumeration value="PersonnelList"/>
+			<xs:enumeration value="Ping"/>
+			<xs:enumeration value="PortalList"/>
+			<xs:enumeration value="Reset"/>
+			<xs:enumeration value="Scan"/>
+			<xs:enumeration value="Secure"/>
+			<xs:enumeration value="SelfTest"/>
+			<xs:enumeration value="SetLocation"/>
+			<xs:enumeration value="SetAutomatic"/>
+			<xs:enumeration value="SetManual"/>
+			<xs:enumeration value="SetTime"/>
+			<xs:enumeration value="Standby"/>
+			<xs:enumeration value="Stop"/>
+			<xs:enumeration value="Unlock"/>
+			<xs:enumeration value="Takeover"/>
+			<xs:enumeration value="Relinquish"/>
+			<xs:enumeration value="Lockout"/>
+			<xs:enumeration value="HandoffControl"/>
+			<xs:enumeration value="TakeControl"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+	        
+	-->
+	<xs:complexType name="LocationCommandType">
+		<xs:annotation>
+			<xs:documentation>Command with a associated location element(s) or a Preset. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SimpleCommand" type="SimpleCommandType"/>
+			<xs:element name="LocationType" type="LocationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="RelativeLocation" type="RelativeLocationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="Preset" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+	        
+	-->
+	<xs:complexType name="TimeCommandType">
+		<xs:annotation>
+			<xs:documentation>Command with an associated Time. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SimpleCommand" type="SimpleCommandType"/>
+			<xs:element name="UpdateTime" type="AbsoluteTimeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+	        
+	-->
+	<xs:complexType name="DetectionCommandType">
+		<xs:annotation>
+			<xs:documentation>Command with an associated list of one or more detection records.  Used for Acknowledging and Clearing detections, typically to coordinate status between C2 nodes. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SimpleCommand" type="SimpleCommandType"/>
+			<xs:element name="Detection" type="DetectionType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--
+
+  -->
+	<xs:complexType name="ExtendedCommandType">
+		<xs:annotation>
+			<xs:documentation>Extended command, allowing extensible command structures. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Parameter" type="ParameterType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Command" type="xs:string" use="required"/>
+	</xs:complexType>
+	<!--
+
+  -->
+	<xs:complexType name="ACSCommandType">
+		<xs:annotation>
+			<xs:documentation>ACS specific command that allows the ACS to return requested information from the ACS to the CCDE.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ControlledArea" type="ACSControlledAreaType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Group" type="ACSGroupType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Portal" type="ACSPortalType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Personnel" type="PersonnelInformation" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--
+
+  -->
+	<xs:complexType name="ACSControlledAreaType">
+		<xs:annotation>
+			<xs:documentation>Specification for Group information.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeviceIdentification" type="DeviceIdentificationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Personnel" type="PersonnelInformation" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Parameter" type="ParameterType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+	</xs:complexType>
+	<!--
+
+  -->
+	<xs:complexType name="ACSGroupType">
+		<xs:annotation>
+			<xs:documentation>Specification for Group information.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeviceIdentification" type="DeviceIdentificationType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+	</xs:complexType>
+	<!--
+
+  -->
+	<xs:complexType name="ACSPortalType">
+		<xs:annotation>
+			<xs:documentation>Specification for Portal information.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeviceIdentification" type="DeviceIdentificationType"/>
+			<xs:element name="Parameter" type="ParameterType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

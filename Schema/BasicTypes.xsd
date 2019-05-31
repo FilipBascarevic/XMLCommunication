@@ -1,0 +1,1920 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 rel. 2 (http://www.altova.com) by Ravi Saxena (Raven LLC) -->
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Henry C Foster (TRW) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:annotation>
+		<xs:documentation>Basic types used in the Force Protection Enterprise.</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="ICDVersionType">
+		<xs:annotation>
+			<xs:documentation>Enumerates all ICD version numbers supported by the current schemas. This approach is used instead of a numeric approach, since the ICD revision numbers vary so dramatically.  The version is used in the PlatformStatusReport and DeviceStatusReport elements, identifying which version of the ICD the device supports.  This element is also optional on the SubscriptionConfiguraitonReport.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ICD-002"/>
+			<xs:enumeration value="ICD-0100"/>
+			<xs:enumeration value="ICD-0101"/>
+			<xs:enumeration value="ICD-0101A"/>
+			<xs:enumeration value="ICD-0101B"/>
+			<xs:enumeration value="BETSS-C-1_0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   		
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	   Device identification  types
+   	/////////////////////////////////////////////////////////////////////////////////////////////    
+   		        
+   	-->
+	<xs:complexType name="DeviceIdentificationType">
+		<xs:all>
+			<xs:element name="Mode" type="DataModeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Mode device transmitted message in.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DeviceName" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Unique identifier for device (e.g. DEV-001). </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DeviceCategory" type="DeviceCategoryType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Usage category of this device.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DeviceType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Short description of device. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OEM" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Device manufacturer. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Model" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Device model. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SerialNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Device serial number. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Base" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Base to which device is allocated. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Sector" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Sector to which device is allocated.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SoftwareVersion" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Device software version.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HostName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Device network hostname.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IPAddress" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Device IP address (use Hostname instead if possible).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Port" type="xs:nonNegativeInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Network port number for socket connection.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="URI" type="AnnotatedUriType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Universal resource indicator identifying device.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<!--
+			These elements have been added for the Generic Sensor ICD
+			-->
+			<xs:element name="DeviceSubType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Short description of device subtype. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HardwareVersion" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Device hardware version.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UUID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Device serial number. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<!-- 
+    		        
+   	-->
+	<xs:complexType name="DeviceTypeArrayType">
+		<xs:sequence>
+			<xs:element name="DeviceType" type="xs:string" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+    		        
+   	-->
+	<xs:complexType name="DeviceNameArrayType">
+		<xs:sequence>
+			<xs:element name="DeviceName" type="xs:string" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="DeviceCategoryType">
+		<xs:annotation>
+			<xs:documentation>Categories/classes of devices.  This specifies the capabilities of the Device or Platform.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Access Control Device"/>
+			<xs:enumeration value="Aircraft"/>
+			<xs:enumeration value="Ancillary Device"/>
+			<xs:enumeration value="Annunciator"/>
+			<xs:enumeration value="Assessment Device"/>
+			<xs:enumeration value="Audible Device"/>
+			<xs:enumeration value="Tracking Device"/>
+			<xs:enumeration value="C2 Node"/>
+			<xs:enumeration value="Communication Device"/>
+			<xs:enumeration value="Delay/Denial"/>
+			<xs:enumeration value="Detection Device"/>
+			<xs:enumeration value="Mass Notification"/>
+			<xs:enumeration value="Navigation"/>
+			<xs:enumeration value="Power"/>
+			<xs:enumeration value="Response Augmentation Device"/>
+			<xs:enumeration value="Sensor"/>
+			<xs:enumeration value="Target Device"/>
+			<xs:enumeration value="Vehicle"/>
+			<xs:enumeration value="Weapon Device"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+    		        
+   	-->
+	<xs:complexType name="DeviceCategoryArrayType">
+		<xs:sequence>
+			<xs:element name="DeviceCategory" type="DeviceCategoryType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--
+
+    -->
+	<xs:complexType name="AnnotatedUriType">
+		<xs:annotation>
+			<xs:documentation>Identifies a unique universal resource indicator and allows for optional description.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:anyURI">
+				<xs:attribute name="Description" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	        
+   	-->
+	<xs:complexType name="ChangeTrackingType">
+		<xs:annotation>
+			<xs:documentation>Provides a mechanism for who has updated an event, and when the 
+			update occurred.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="UpdatedBy" type="DeviceIdentificationType"/>
+			<xs:element name="UpdateTime" type="AbsoluteTimeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+  	
+
+   	
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	   Location types
+   	/////////////////////////////////////////////////////////////////////////////////////////////    
+   		        
+   	-->
+	<xs:complexType name="Location">
+		<xs:annotation>
+			<xs:documentation>Current location of an entity (x, y, z) plus tag indicating  when the location was last updated. Optional Position attribute can be used to help georeference an image to an actual location.</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="LocationType" type="LocationType"/>
+			<xs:element ref="UpdateTime" minOccurs="0"/>
+		</xs:all>
+		<xs:attribute name="Position" type="ImagePositionType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="LocationType">
+		<xs:annotation>
+			<xs:documentation>Absolute location of entity in Geodetic, UTM, MGRS, or Grid (x/y/z) coordinates - or, a command to the                                     device or system to reset its location based on its own GPS data. Uncertainty (optional) is expressed as an error ellipse centered on the reported location.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element ref="GeodeticLocation"/>
+				<xs:element ref="UTMLocation"/>
+				<xs:element ref="MGRSLocation"/>
+				<xs:element name="GPSLocation">
+					<xs:annotation>
+						<xs:documentation>Location expressed in GPS coordinates with GPS correction if applicable.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="GridLocation"/>
+			</xs:choice>
+			<xs:element name="EllipseUncertainty" type="LocationUncertaintyEllipseType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="RelativeLocationType">
+		<xs:annotation>
+			<xs:documentation>Relative Location of entity from Device using Range, Azumith, and Angle</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="Range" type="DistanceType" minOccurs="0"/>
+			<xs:element name="Azimuth" type="AzimuthType" minOccurs="0"/>
+			<xs:element name="ElevationAngle" type="ElevationAngleType" minOccurs="0"/>
+		</xs:all>
+		<xs:attribute name="Reference" type="AzimuthReferencePointType" default="Self"/>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:element name="GeodeticLocation">
+		<xs:annotation>
+			<xs:documentation>Geodetic (latitude, longitude) elements</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Latitude" type="LatitudeType"/>
+				<xs:element name="Longitude" type="LongitudeType"/>
+				<xs:element name="Altitude" type="AltitudeType" minOccurs="0"/>
+			</xs:all>
+			<xs:attribute name="Datum" type="DatumType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- 
+    
+   	-->
+	<xs:element name="UTMLocation">
+		<xs:annotation>
+			<xs:documentation>Universal Transverse Mercator coordinates.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Zone" type="UTMZoneType"/>
+				<xs:element name="Hemisphere" type="HemisphereType"/>
+				<xs:element name="Easting" type="nonNegativeDistance"/>
+				<xs:element name="Northing" type="nonNegativeDistance"/>
+				<xs:element name="Altitude" type="AltitudeType" minOccurs="0"/>
+			</xs:all>
+			<xs:attribute name="Datum" type="DatumType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- 
+    
+   	-->
+	<xs:element name="MGRSLocation">
+		<xs:annotation>
+			<xs:documentation>Military Grid Reference System coordinates.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Zone" type="UTMZoneType"/>
+				<xs:element name="ZoneLetter" type="MgrsCharacterType"/>
+				<xs:element name="RowLetter" type="MgrsCharacterType"/>
+				<xs:element name="ColumnLetter" type="MgrsCharacterType"/>
+				<xs:element name="Easting" type="nonNegativeDistance"/>
+				<xs:element name="Northing" type="nonNegativeDistance"/>
+				<xs:element name="Altitude" type="AltitudeType" minOccurs="0"/>
+			</xs:all>
+			<xs:attribute name="Datum" type="DatumType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- 
+    
+   	-->
+	<xs:element name="GridLocation">
+		<xs:annotation>
+			<xs:documentation>Location expressed as x/y/z coordinates, with the z value optional. 
+			Example is a point in a video image, expressed in x/y pixels.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="x" type="DoubleWithUnitsType"/>
+				<xs:element name="y" type="DoubleWithUnitsType"/>
+				<xs:element name="z" type="DoubleWithUnitsType" minOccurs="0"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="DatumType">
+		<xs:annotation>
+			<xs:documentation>The only supported datum is WGS84.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="WGS84"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="DoubleWithUnitsType">
+		<xs:annotation>
+			<xs:documentation>A double value with units, and optionally minimum and maximum, specified. Used in GridLocation.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:double">
+				<xs:attribute name="Units" type="xs:string" use="required"/>
+				<xs:attribute name="Minimum" type="xs:double" use="optional"/>
+				<xs:attribute name="Maximum" type="xs:double" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="LatitudeType">
+		<xs:simpleContent>
+			<xs:extension base="LatitudeRangeType">
+				<xs:attribute name="Units" type="LatLonUnitsType" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="LatitudeRangeType">
+		<xs:restriction base="xs:double">
+			<xs:minInclusive value="-90.0"/>
+			<xs:maxInclusive value="90.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="LongitudeType">
+		<xs:simpleContent>
+			<xs:extension base="LongitudeRangeType">
+				<xs:attribute name="Units" type="LatLonUnitsType" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="LongitudeRangeType">
+		<xs:restriction base="xs:double">
+			<xs:minInclusive value="-180.0"/>
+			<xs:maxInclusive value="360.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="UTMZoneType">
+		<xs:annotation>
+			<xs:documentation>Enumerations for valid UTM Zone numbers.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:positiveInteger">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="HemisphereType">
+		<xs:annotation>
+			<xs:documentation>Northern or Southern hemisphere.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="N"/>
+			<xs:enumeration value="S"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="LatLonUnitsType">
+		<xs:annotation>
+			<xs:documentation>For ease of parsing/processing, only decimal degrees are supported.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Decimal Degrees"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="MgrsCharacterType">
+		<xs:annotation>
+			<xs:documentation>MGRS omits the use of the letters I and O.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="1"/>
+			<xs:pattern value="[A-H]|[J-N]|[P-Z]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="ImagePositionType">
+		<xs:annotation>
+			<xs:documentation>Used for establishing which point (corner or center) in an image a reported position applies to.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="TopLeft"/>
+			<xs:enumeration value="TopRight"/>
+			<xs:enumeration value="Center"/>
+			<xs:enumeration value="BottomLeft"/>
+			<xs:enumeration value="BottomRight"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="LocationUncertaintyEllipseType">
+		<xs:annotation>
+			<xs:documentation>Uncertainty of location expressed as an XY plane (projected onto earth's surface) error ellipse. Major axis is oriented along reported azimuth, with zero being due North.</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="MajorAxisLength_XY" type="DistanceType"/>
+			<xs:element name="MinorAxisLength_XY" type="DistanceType"/>
+			<xs:element name="MajorAxisAzimuth_XY" type="AzimuthType"/>
+		</xs:all>
+	</xs:complexType>
+	<!-- 
+   	
+   	
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	   Distance and altitude types
+   	/////////////////////////////////////////////////////////////////////////////////////////////        
+   	
+   	
+   	-->
+	<xs:complexType name="nonNegativeDistance">
+		<xs:simpleContent>
+			<xs:extension base="xs:nonNegativeInteger"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="DistanceType">
+		<xs:simpleContent>
+			<xs:extension base="xs:double">
+				<xs:attribute name="Units" type="DistanceUnitsType" use="required"/>
+				<xs:attribute name="MinimumValue" type="xs:double" use="optional"/>
+				<xs:attribute name="MaximumValue" type="xs:double" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="DistanceUnitsType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Meters"/>
+			<xs:enumeration value="Kilometers"/>
+			<xs:enumeration value="Feet"/>
+			<xs:enumeration value="Miles"/>
+			<xs:enumeration value="Nautical miles"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="AltitudeType">
+		<xs:simpleContent>
+			<xs:extension base="DistanceType">
+				<xs:attribute name="Reference" type="AltitudeReferenceType" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="AltitudeReferenceType">
+		<xs:annotation>
+			<xs:documentation>Reference to describe whether altitude is expressed as &quot;Above Ground Level&quot; (AGL) or &quot;Mean Sea Level&quot; (MSL).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AGL"/>
+			<xs:enumeration value="MSL"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--
+   	
+   	 
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	   Velocity/vector types
+   	/////////////////////////////////////////////////////////////////////////////////////////////        
+   	
+   	
+   	-->
+	<xs:complexType name="SpeedType">
+		<xs:simpleContent>
+			<xs:extension base="xs:double">
+				<xs:attribute name="Units" type="SpeedUnitsType" use="required"/>
+				<xs:attribute name="MinimumValue" type="xs:double" use="optional"/>
+				<xs:attribute name="MaximumValue" type="xs:double" use="optional"/>
+				<xs:attribute name="Uncertainty" type="xs:double" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="SpeedUnitsType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MetersPerSecond"/>
+			<xs:enumeration value="FeetPerSecond"/>
+			<xs:enumeration value="MilesPerHour"/>
+			<xs:enumeration value="KmPerHour"/>
+			<xs:enumeration value="Knots"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	
+   	
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	   Time types
+   	/////////////////////////////////////////////////////////////////////////////////////////////        
+   	
+   	
+   	-->
+	<xs:complexType name="DeltaTimeType">
+		<xs:simpleContent>
+			<xs:extension base="xs:double">
+				<xs:attribute name="Units" type="TimeUnitsType" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="TimeUnitsType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Days"/>
+			<xs:enumeration value="Hours"/>
+			<xs:enumeration value="Minutes"/>
+			<xs:enumeration value="Seconds"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	
+   	-->
+	<xs:element name="UpdateTime" type="AbsoluteTimeType">
+		<xs:annotation>
+			<xs:documentation>Retained for backwards compatability.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- 
+   	
+   	-->
+	<xs:complexType name="AbsoluteTimeType">
+		<xs:annotation>
+			<xs:documentation>Mechanism for reporting time. Timezone is mandatory to avoid confusion.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:dateTime">
+				<xs:attribute name="Zone" type="TimezoneType" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="TimezoneType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GMT"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="EventTimeType">
+		<xs:annotation>
+			<xs:documentation>Type used to define a schedule for a particular event. Contains mandatory start time; stop time and recurrence are optional. Note that for recurring events, parameters of first event are used as the model; for example, an event with a Weekly recurrence would be scheduled to occur each week on whatever day the initial StartTime fell on.</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="StartTime" type="AbsoluteTimeType"/>
+			<xs:element name="StopTime" type="AbsoluteTimeType" minOccurs="0"/>
+			<xs:element name="Recurrence" type="RecurrenceType" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="RecurrenceType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Hourly"/>
+			<xs:enumeration value="Daily"/>
+			<xs:enumeration value="Weekly"/>
+			<xs:enumeration value="Monthly"/>
+			<xs:enumeration value="Yearly"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	
+   	
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	   Angle types
+   	/////////////////////////////////////////////////////////////////////////////////////////////        
+   	
+   	
+   	-->
+	<xs:complexType name="AzimuthType">
+		<xs:simpleContent>
+			<xs:extension base="AngularMeasurementRangeType">
+				<xs:attribute name="Units" type="AngularUnitsType" use="required"/>
+				<xs:attribute name="MinimumValue" type="xs:double" use="optional"/>
+				<xs:attribute name="MaximumValue" type="xs:double" use="optional"/>
+				<xs:attribute name="Reference" type="AzimuthReferencePointType" default="Self"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="AngularMeasurementRangeType">
+		<xs:annotation>
+			<xs:documentation>To support both degrees and mils, the range of angular measurements must span 0-6400.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:double">
+			<xs:minInclusive value="0.0"/>
+			<xs:maxInclusive value="6400.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="AngularUnitsType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Degrees"/>
+			<xs:enumeration value="Mils"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="ElevationAngleType">
+		<xs:annotation>
+			<xs:documentation>Current 'tilt' angle of the device, or elevation of target, where level equals 0, straight up equals  90 degrees, and straight down equals -90 degrees.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="ElevationAngleRangeType">
+				<xs:attribute name="Units" type="AngularUnitsType" use="required"/>
+				<xs:attribute name="MinimumValue" type="ElevationAngleRangeType" use="optional"/>
+				<xs:attribute name="MaximumValue" type="ElevationAngleRangeType" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="ElevationAngleRangeType">
+		<xs:restriction base="xs:double">
+			<xs:minInclusive value="-1600.0"/>
+			<xs:maxInclusive value="1600.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+	-->
+	<xs:simpleType name="ReferencePointType">
+		<xs:restriction	base="xs:string">
+			<xs:enumeration value="Self"/>
+			<xs:enumeration value="Parent"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+
+	-->
+	<xs:simpleType name="VerticalReferenceType">
+		<xs:restriction	base="xs:string">
+			<xs:enumeration value="Horizon"/>
+			<xs:enumeration value="Vertical"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+  
+	-->
+	<xs:simpleType name="ElevationReferencePointType">
+		<xs:union memberTypes="ReferencePointType VerticalReferenceType"/>
+	</xs:simpleType>
+	<!--
+
+	-->
+	<xs:simpleType name="GeodeticReferenceType">
+		<xs:restriction	base="xs:string">
+			<xs:enumeration value="True North"/>
+			<xs:enumeration value="Magnetic North"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--
+
+	-->
+	<xs:simpleType name="AzimuthReferencePointType">
+		<xs:union memberTypes="ReferencePointType GeodeticReferenceType"/>
+	</xs:simpleType>
+	<!--    	
+   	
+   	
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	   Scan Sector/ Zone types
+   	/////////////////////////////////////////////////////////////////////////////////////////////        
+   	
+   	
+   	-->
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="ZoneReferenceType">
+		<xs:annotation>
+			<xs:documentation>Used to reference a zone which has already been defined, with mandatory Type attribute to indicate the nature of the zone. Id is used for identifying the Zone.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Type" type="ZoneTypeEnumeration" use="required"/>
+		<xs:attribute name="Id" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="ZoneType">
+		<xs:annotation>
+			<xs:documentation>Various ways to define Zones, with mandatory Type attribute to indicate the nature of the zone. Id is optional but useful for identifying Zones. The CommandMode attribute is used for Creating, Updating, and Deleting zones.Optional time intervals can be assigned to a zone to trigger activation via the ActivePeriod tag.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ZoneReferenceType">
+				<xs:sequence>
+					<xs:element name="Name" type="xs:string" minOccurs="0"/>
+					<xs:element name="Description" type="xs:string" minOccurs="0"/>
+					<xs:choice minOccurs="0">
+						<xs:element name="Polygon" type="PolygonType"/>
+						<xs:element ref="ScanSector"/>
+						<xs:element ref="Tripwire"/>
+					</xs:choice>
+					<xs:element name="ActivePeriod" type="EventTimeType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="UpdateHistory" type="ChangeTrackingType" minOccurs="0" maxOccurs="unbounded"/>
+					<!-- Name: Human-readable identifier. -->
+					<!-- Description: Human-readable description. -->
+					<!-- UpdateHistory: Should be populated to indicate sensor/system which created/updated the zone, along with associated timetag. -->
+				</xs:sequence>
+				<xs:attribute name="Enabled" type="xs:boolean" use="optional"/>
+				<xs:attribute name="CommandMode" type="CommandModeType" use="optional"/>
+			</xs:extension>
+			<!-- CommandMode should only be used when requesting a device to Create or modify a zone.  
+      The Device would not use this attribute when reporting Zones. -->
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 
+    		        
+   	-->
+	<xs:complexType name="ZoneArrayType">
+		<xs:sequence>
+			<xs:element name="Zone" type="ZoneReferenceType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:element name="ScanSector">
+		<xs:annotation>
+			<xs:documentation>Provides information about the sector(s) scanned by this device. Sectors are defined by a radial sweep from the device's location and thus are primarily applicable to Radar systems.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="MinimumRange" type="DistanceType"/>
+				<xs:element name="MaximumRange" type="DistanceType"/>
+				<xs:element name="MinimumAzimuth" type="AzimuthType"/>
+				<xs:element name="MaximumAzimuth" type="AzimuthType"/>
+				<xs:element name="ElevationAngle" type="ElevationAngleType"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="ZoneTypeEnumeration">
+		<xs:annotation>
+			<xs:documentation>The nature of the geographic area.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AreaOfInterest"/>
+			<xs:enumeration value="CBRNEPlume"/>
+			<xs:enumeration value="Defended"/>
+			<xs:enumeration value="Detection"/>
+			<xs:enumeration value="Exclusion"/>
+			<xs:enumeration value="General"/>
+			<xs:enumeration value="NoFly"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Surveillance"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Tripwire">
+		<xs:annotation>
+			<xs:documentation>Provides a unique line of detection, comprised of two location points, that intruders cannot cross.  The direction of travel may be right, left or both for the tripwire.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="PointA" type="LocationType"/>
+					<xs:element name="PointB" type="LocationType"/>
+				</xs:sequence>
+				<xs:element name="Point" type="LocationType" minOccurs="2" maxOccurs="unbounded"/>
+			</xs:choice>
+			<xs:attribute name="Direction" type="DirectionType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="DirectionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Both"/>
+			<xs:enumeration value="Left"/>
+			<xs:enumeration value="Right"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="PolygonType">
+		<xs:annotation>
+			<xs:documentation>The nature of the geographic or geometric area.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LocationType" type="LocationType" minOccurs="3" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+    		        
+   	-->
+	<xs:complexType name="AreaOfInterestArrayType">
+		<xs:sequence>
+			<xs:element name="AreaOfInterest" type="PolygonType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+   	
+   	
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	   Communications  types
+   	/////////////////////////////////////////////////////////////////////////////////////////////        
+   	
+   	
+   	-->
+	<xs:complexType name="FrequencyType">
+		<xs:simpleContent>
+			<xs:extension base="xs:double">
+				<xs:attribute name="Units" type="FrequencyUnitsType" use="required"/>
+				<xs:attribute name="Mode" type="FrequencyModeType" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="FrequencyUnitsType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="KHz"/>
+			<xs:enumeration value="mHz"/>
+			<xs:enumeration value="MHz"/>
+			<xs:enumeration value="GHz"/>
+			<xs:enumeration value="Hz"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="FrequencyModeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Uplink"/>
+			<xs:enumeration value="Downlink"/>
+			<xs:enumeration value="Bidirectional"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	
+   	
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	   Command and Request types
+   	/////////////////////////////////////////////////////////////////////////////////////////////        
+   	
+   	
+   	-->
+	<xs:attributeGroup name="MessageContext">
+		<xs:annotation>
+			<xs:documentation>
+				In many cases, the same message structure is used to report a condition as is used to request
+				a change to that condition, and/or to respond with the results of such a request.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="MessageType" type="MessageType" use="required"/>
+		<xs:attribute name="RequestId" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>
+					RequestId is used to associate responses with requests. A request must include a unique
+					RequestId, while a response must include the RequestId from the corresponding request.
+					Reports or Queries should not include a RequestId.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ExpirationTime" type="xs:dateTime" use="optional">
+			<xs:annotation>
+				<xs:documentation>
+					ExpirationTime is only applicable to Requests and indicates the time the requestor will wait until before declaring a timeout.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Status" type="ConfigurationStatusType" use="optional">
+			<xs:annotation>
+				<xs:documentation>
+					Status is only applicable to Responses, and must be included in all responses.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ErrorSeverity" type="SeverityType" use="optional">
+			<xs:annotation>
+				<xs:documentation>
+					ErrorSeverity must only be included in Responses with a non-OK Status, and may then be
+					used to annotate the error condition, but interpretation is unspecified.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Details" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>
+					Details must only be included in Responses with a non-OK Status, and may then be
+					used to provide a human readable description of the error condition.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<!--
+
+   	-->
+	<xs:simpleType name="MessageType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Report"/>
+			<xs:enumeration value="Request"/>
+			<xs:enumeration value="Response"/>
+			<xs:enumeration value="Query"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="CommandModeType">
+		<xs:annotation>
+			<xs:documentation>        Used to specify whether a Zone or Track is to be created, deleted, or updated.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Create"/>
+			<xs:enumeration value="Delete"/>
+			<xs:enumeration value="DeleteAll"/>
+			<xs:enumeration value="Update"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="DataModeType">
+		<xs:annotation>
+			<xs:documentation>Mode for data exchanges, distinguishing test data from real data.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Exercise"/>
+			<xs:enumeration value="Real"/>
+			<xs:enumeration value="Test"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="ConfigurationStatusType">
+		<xs:annotation>
+			<xs:documentation>Status of the device.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="OK"/>
+			<xs:enumeration value="Failed"/>
+			<xs:enumeration value="Unsupported"/>
+			<xs:enumeration value="Busy"/>
+			<xs:enumeration value="Invalid"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+	        
+	-->
+	<xs:simpleType name="JobStatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Active"/>
+			<xs:enumeration value="Pending"/>
+			<xs:enumeration value="Deleted"/>
+			<xs:enumeration value="Rejected"/>
+			<xs:enumeration value="TimedOut"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="SeverityType">
+		<xs:annotation>
+			<xs:documentation>This specifies the device condition.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Critical"/>
+			<xs:enumeration value="Severe"/>
+			<xs:enumeration value="Warning"/>
+			<xs:enumeration value="Information"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+	        
+	-->
+	<xs:complexType name="ListType">
+		<xs:sequence>
+			<xs:element name="ListItem" type="ListItemType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Name" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<!-- 
+	        
+	-->
+	<xs:complexType name="ListItemType">
+		<xs:annotation>
+			<xs:documentation>Provides a construct for managing a queue or task list.</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="Id" type="xs:string" minOccurs="0"/>
+			<xs:element name="Name" type="xs:string" minOccurs="0"/>
+			<xs:element name="Priority" type="xs:positiveInteger" minOccurs="0"/>
+			<xs:element name="Status" type="JobStatusType" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="ParameterType">
+		<xs:annotation>
+			<xs:documentation>Specification of an arbitrary parameter for extended commands and detection data. </xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="AnnotatedDataType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 
+   	
+   	
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	   Subscription and Report types
+   	/////////////////////////////////////////////////////////////////////////////////////////////        
+   	
+   	
+   	-->
+	<xs:complexType name="SubscriptionOptionType">
+		<xs:annotation>
+			<xs:documentation>Individal subscription options.
+				ReportType: the report to be subscribed to.
+				Selected: indicates if the particular report type is to be subscribed to or not.
+				MaxReportsPerSecond: Maximum rate that the subsciber wishes to receive 
+					reports. General assumption is that the reports will only be published upon a 
+					change of the referenced data; MaxReportsPerSecond establishes a throttle 
+					rate so that a subscriber can guard against being inundated by rapidly changing 
+					data.
+				MaxDurationBetweenReports: Maximum time (formatted per ISO 8601) between
+					any two transmissions satisfying this subscription, even if nothing has changed.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Filter" type="FilterType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="ReportType" type="ReportType" use="required"/>
+		<xs:attribute name="Selected" type="xs:boolean" use="optional"/>
+		<xs:attribute name="MaxReportsPerSecond" type="xs:double" use="optional"/>
+		<xs:attribute name="MaxDurationBetweenReports" type="xs:duration" use="optional"/>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:simpleType name="ReportType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DeviceConfiguration"/>
+			<xs:enumeration value="DeviceDetectionReport"/>
+			<xs:enumeration value="DeviceStatusReport"/>
+			<xs:enumeration value="GeometryReport"/>
+			<xs:enumeration value="PlatformStatusReport"/>
+			<xs:enumeration value="TrackReport"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="FilterType">
+		<xs:annotation>
+			<xs:documentation>Filter criteria. Used to specify the  data  of interest. Note that if a particular filter criterium
+			    (example: Affiliation) is not applied, all reports for which that criterium is applicable shall be forwarded.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeviceFilter" type="DeviceFilterType" minOccurs="0"/>
+			<xs:element name="DataFilter" type="DataFilterType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="DeviceFilterType">
+		<xs:annotation>
+			<xs:documentation>Filter criteria. Used to specify the desired source of the data. Fidelity increases as 
+			         the subscription request goes from DeviceCategory up to DeviceName, with DeviceName being the
+			         most restrictive - indicating that data only for the specific device is desired.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="DeviceCategories" type="DeviceCategoryArrayType" minOccurs="0"/>
+			<xs:element name="DeviceTypes" type="DeviceTypeArrayType" minOccurs="0"/>
+			<xs:element name="DeviceNames" type="DeviceNameArrayType" minOccurs="0"/>
+		</xs:choice>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="DataFilterType">
+		<xs:annotation>
+			<xs:documentation>Filter criteria. Used to specify the  data  of interest. Note that if a particular filter criterium
+			    (example: Affiliation) is not applied, all reports for which that criterium is applicable shall be forwarded.
+			         DataMode: Real vs. Test etc. 
+			         AreaOfInterest: Geographic filter for any of the specified ReportType. 
+			         DataMode: Used to request a particular data type (e.g., Real vs. Test)
+			         Affiliation: Applicable for DeviceDetectionReport. Subscriber only desires to receive 
+			            reports regarding the specified affiliations.
+			         Confidence: Applicable for DeviceDetectionReport. Desired Confidence level(s).
+			             If specified, only Detections with  Confidence values equal to or higher than the requested level 
+			             shall be provided.
+			         Assessment: Applicable only to DeviceDetectionReports. Supports filtering by Operator 
+			             Assessment.
+			         ZoneType: Applicable to all report types. Within a GeometryReport subscription,
+                     indicates  types of zones to be reported.  As applied to any other ReportType, the
+                     referenced zone serves as a geographic filter for data.  
+         </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DataMode" type="DataModeType" minOccurs="0"/>
+			<xs:element name="AreasOfInterest" type="AreaOfInterestArrayType" minOccurs="0"/>
+			<xs:element name="Affiliations" type="AffiliationArrayType" minOccurs="0"/>
+			<xs:element name="Confidences" type="ConfidenceArrayType" minOccurs="0"/>
+			<xs:element name="AssessmentSelections" type="AssessmentSelectionArrayType" minOccurs="0"/>
+			<xs:element name="Zones" type="ZoneArrayType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+   	
+   	
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	  Status types
+   	/////////////////////////////////////////////////////////////////////////////////////////////        
+   	
+   	
+   	-->
+	<xs:complexType name="AnnotatedDataType">
+		<xs:annotation>
+			<xs:documentation>
+				A variable or simple data point instance, marked up to include data type and/or limits/restrictions.
+				Allows remote system to understand a specific data item that is specified generically within the schema.
+				For Commands Requests, the Enumeration and Range fields will be left out and only the name and value will be used.
+
+				For setup, the value may be ignored and the Enumeration or Range tags will be used.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>
+				</xs:documentation>
+			</xs:annotation>
+			<xs:element name="Name" type="xs:string"/>
+			<xs:element name="Value" minOccurs="0">
+				<xs:complexType mixed="true">
+					<xs:sequence>
+						<xs:any processContents="lax" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						You have the choice between listing possible Enumerations for this data type and
+						describing a range of valid values for the data type.  You don't have to specify either,
+						in the case of sending a command, but you can never specify both.
+						Generally you would only have an Enumeration with a DataType of "string" and a Range if
+						DataType is not "string".
+					</xs:documentation>
+				</xs:annotation>
+				<xs:element ref="Enumerations"/>
+				<xs:element name="Range">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="MinimumValue" type="xs:string" minOccurs="0"/>
+							<xs:element name="MaximumValue" type="xs:string" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="DataType" type="AnnotatedDataTypes" use="required"/>
+		<xs:attribute name="Units" type="xs:string" use="optional" default="None"/>
+		<xs:attribute name="ParameterMode" type="ParameterModeType" use="optional"/>
+		<xs:attribute name="Enabled" type="xs:boolean" default="true"/>
+		<xs:attribute name="RequiresExclusiveControl" type="xs:boolean" default="false"/>
+		<xs:attribute name="ReadOnly" type="xs:boolean" use="optional"/>
+		<!-- Unit Spec: Required in all reports, requests, and responses if the value has a unit -->
+		<!-- ReadOnly spec: Required when used declaratively in a DeviceConfiguration report -->
+	</xs:complexType>
+	<xs:simpleType name="AnnotatedDataTypes">
+		<xs:annotation>
+			<xs:documentation>
+				A list of unqualified standardized XML data type names.  These are
+				the types allowed within AnnotatedDataType when in Min/Max configuration.
+				In addition to the enumerated type names, now allow any type name that
+				(roughly) matches either a mime type (e.g. "image/svg+xml") or a
+				qualified XML name (e.g., "xs:date"), but not an arbitrary string with
+				neither a slash nor a colon.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Boolean"/>
+					<xs:enumeration value="Integer"/>
+					<xs:enumeration value="Long"/>
+					<xs:enumeration value="DateTime"/>
+					<xs:enumeration value="Double"/>
+					<xs:enumeration value="String"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="\c+:\c+"/>
+					<xs:pattern value="\c+/[\c+]+"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:element name="Enumerations">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Enumeration" type="xs:string" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							Enumeration elements are used to indicate values that have discrete enumerations - analogous
+							to options selectable via radio buttons.
+							They differ from the old ConfigurationOption elements in that the current value is indicated by
+							a separate element restating the name of the selected option rather than a flag inside the
+							list itself.  This separates the declaration of the list from the reporting of the value, which
+							is helpful if the entire list is not delivered with every report, or in requests and responses.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!--
+   	
+   	-->
+	<xs:complexType name="DetailedStatusType">
+		<xs:annotation>
+			<xs:documentation>Optional, detailed status about the device including (for example) Battery Voltage, BIT Status, Temperature, alarm details, and other such low-level indicators.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="AnnotatedDataType">
+				<xs:sequence>
+					<xs:element name="State" type="StateType" minOccurs="0"/>
+					<xs:element name="Severity" type="SeverityType" minOccurs="0"/>
+					<xs:element name="Explanation" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- 
+   	        
+   	   -->
+	<xs:simpleType name="StateType">
+		<xs:annotation>
+			<xs:documentation>
+				Enumerations for simple state values.  Complex detections should be reported using a DeviceStatusReport followed by a DeviceDetectionReport.
+
+				Accessed:  Device is not reporting intrusions for its coverage area.  Device may be under maintenance service or the operator wishes to ignore alarms from this device.  While in this state, any alarms, status data, or other information reported by the device are ignored by a C2 system. An exception to this is communication state.  An accessed device may have its communication state monitored and Tamper conditions monitored.  If an operator places a normally functioning device into this state, it is equivalent to "standby mode".
+
+				Active: Used to describe a device or subdevice that is actively operating, but is not intended to detect alarms i.e. barrier being deployed, motor running, etc.
+
+				Alarmed: Deprecated.  DeviceDetectionReports should be utilized to report alarm conditions and the device should remain in Secure state.
+
+				Automatic: Indicates the device is using an automatic mode of operation and is capable of utilizing a manual mode, for instance a explosive detection device or navigational system.
+
+				BadSignal: Indicates the device is operating correctly (no fault) but which has inadequate input signal to detect alarms (used by VMD).
+
+				Calibrated: Indicates the device has undergone the necessary calibration process, but is not actively detecting alarms.
+
+				Calibrating: Indicates the device is undergoing a calibration process.
+
+				Closed: Indicates the device (typically subdevice) is closed i.e. switch, door, relay  etc.
+
+				Deleted: Device has been deleted from a system's configuration. This serves as a completion notification for commands requesting device deletion.  Also allows systems to notify each other as their respective configurations change. Note that devices are implicitly added to a configuration when a status report is received regarding a device which is not in a local system's configuration.
+
+				Fault: DeviceStatusReport should indicate a Detection of type Fault to indicate this state and provide adequate detail about the nature of the fault.  Device has detected a fault condition, indicating a possible malfunction. This could indicate failure of a self test or other internal diagnostic.
+
+				Fail: Deprecated.  Use Fault and Detection within DeviceStatusReport to indicate a complete failure.
+
+				Inactive:   Used to describe a device or subdevice that is not actively operating.  The device is not intended to detect alarms i.e. barrier being deployed, motor running, etc. and therefore differentiates this state from Accessed or Offline.
+
+				Maintenance: Indicates the device is currently undergoing maintenance. In contrast with Accessed, typically the device may not be able to report tamper alarms or have its communications state monitored.  In contrast with Offline, indicates a specific normal condition with a known cause and usually an expected duration.
+
+				Manual: Indicates the device is using an manual mode of operation and is capable of utilizing an automatic mode, for instance a PTZ, explosive detection device or navigational system.
+
+				Off: Indicates the device (typically subdevice) is powered off or is switched to an off position.
+
+				Offline: Indicates the device is not disabled and/or is not communicating at all.
+
+				OK: Deprecated.  Device is functioning normally. Use most accurate state  available in this enumerated list.
+
+				On: Indicates the device (typically subdevice) is powered on or is switched to an on position.
+
+				Online: Indicates the device is operating and ready to communicate.  System is not actively scanning for alarms, which differentiates this state from Secure.
+
+				Open: Indicates the device (typically subdevice) is switched to an open state or is physically open e.g. door, switch, relay, etc.
+
+				Patrol: Indicates the device is actively patrolling an area instead of stopped for instance a PTZ or mobile surveillance unit.
+
+				Secure:  No alarms currently active for the device; device is ready to detect intrusions and other alarms.
+
+				SelfTest: Indicates the device is undergoing diagnostics or other selftest operations.  Recommended use is when selftest procedures require long wait periods.  Differentiating this status from Secure or Online allows the CCDE to inform the operator when selftest concludes.
+
+				Stealth: Indicates the device is in a special stealth mode, typically a mobile surveillance unit would require this unique state to differentiate it from Patrol state.
+
+				Stopped: Indicates the device is not moving, typically used by fixed and mobile surveillance devices and delay/denial systems.
+
+				Tamper:   DeviceStatusReport should indicate a Detection of type Fault to indicate this state and a detection event of Tamper.  Indicates device is being tampered or interfered with.
+
+				Uncalibrated: Indicates the device requires a calibration process to execute before it becomes Online or Secure.  Typically used  (in conjunction with Calibrating and Calibrated states) by LOS sensors, VMD, Explosive Detecton and ROWS.
+
+				Unknown: State is unknown, possibly due to prior fault or timeout condition. Reporting state as Unknown is equivalent to omitting this construct altogether from DetailtedStatusType or DeviceStatusReport and is discouraged.
+
+				UnknownView: Indicates the device is operating correctly, has sufficient input signal but does not recognize the input signal (used by VMD devices).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Accessed"/>
+			<xs:enumeration value="Active"/>
+			<xs:enumeration value="Alarmed"/>
+			<xs:enumeration value="Automatic"/>
+			<xs:enumeration value="BadSignal"/>
+			<xs:enumeration value="Calibrated"/>
+			<xs:enumeration value="Calibrating"/>
+			<xs:enumeration value="Closed"/>
+			<xs:enumeration value="Deleted"/>
+			<xs:enumeration value="Fault"/>
+			<xs:enumeration value="Fail"/>
+			<xs:enumeration value="Inactive"/>
+			<xs:enumeration value="Maintenance"/>
+			<xs:enumeration value="Manual"/>
+			<xs:enumeration value="NotOK"/>
+			<xs:enumeration value="Off"/>
+			<xs:enumeration value="Offline"/>
+			<xs:enumeration value="OK"/>
+			<xs:enumeration value="On"/>
+			<xs:enumeration value="Online"/>
+			<xs:enumeration value="Open"/>
+			<xs:enumeration value="Patrol"/>
+			<xs:enumeration value="Secure"/>
+			<xs:enumeration value="SelfTest"/>
+			<xs:enumeration value="Stealth"/>
+			<xs:enumeration value="Stopped"/>
+			<xs:enumeration value="Tamper"/>
+			<xs:enumeration value="Uncalibrated"/>
+			<xs:enumeration value="Unknown"/>
+			<xs:enumeration value="UnknownView"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	   -->
+	<xs:simpleType name="SubStateType">
+		<xs:annotation>
+			<xs:documentation>Enumerations for lower-level state data.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Acknowledged"/>
+			<xs:enumeration value="AlarmAbsent"/>
+			<xs:enumeration value="AlarmPresent"/>
+			<xs:enumeration value="Closed"/>
+			<xs:enumeration value="Enabled"/>
+			<xs:enumeration value="Disabled"/>
+			<xs:enumeration value="Locked"/>
+			<xs:enumeration value="Open"/>
+			<xs:enumeration value="Switched"/>
+			<xs:enumeration value="Unlocked"/>
+			<xs:enumeration value="Unswitched"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	   -->
+	<xs:simpleType name="DetectionEventType">
+		<xs:annotation>
+			<xs:documentation>Type of detection being reported. Used in reporting alarm conditions or other observed phenomenon, whether by a device or a human.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Access Denied"/>
+			<xs:enumeration value="Access Granted"/>
+			<xs:enumeration value="Acoustic"/>
+			<xs:enumeration value="Aircraft"/>
+			<xs:enumeration value="Attack"/>
+			<xs:enumeration value="Authorization Failure"/>
+			<xs:enumeration value="Biological Agent"/>
+			<xs:enumeration value="Blister Agent"/>
+			<xs:enumeration value="Blood Agent"/>
+			<xs:enumeration value="Breach"/>
+			<xs:enumeration value="Chemical Agent"/>
+			<xs:enumeration value="Clutter"/>
+			<xs:enumeration value="Contraband"/>
+			<xs:enumeration value="Crawler"/>
+			<xs:enumeration value="Door Forced"/>
+			<xs:enumeration value="Duress"/>
+			<xs:enumeration value="Emergency"/>
+			<xs:enumeration value="Explosive"/>
+			<xs:enumeration value="Explosion"/>
+			<xs:enumeration value="Fault"/>
+			<xs:enumeration value="Fire"/>
+			<xs:enumeration value="HeavyVehicle"/>
+			<xs:enumeration value="IED"/>
+			<xs:enumeration value="Impact"/>
+			<xs:enumeration value="Intrusion"/>
+			<xs:enumeration value="Launch"/>
+			<xs:enumeration value="LightVehicle"/>
+			<xs:enumeration value="Misuse"/>
+			<xs:enumeration value="Mortar"/>
+			<xs:enumeration value="Motion"/>
+			<xs:enumeration value="Nerve Agent"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Passback"/>
+			<xs:enumeration value="Personnel"/>
+			<xs:enumeration value="PointOfImpact"/>
+			<xs:enumeration value="PointOfOrigin"/>
+			<xs:enumeration value="Radiation"/>
+			<xs:enumeration value="Rocket"/>
+			<xs:enumeration value="Runner"/>
+			<xs:enumeration value="Seismic"/>
+			<xs:enumeration value="Tailgate"/>
+			<xs:enumeration value="Tamper"/>
+			<xs:enumeration value="Thermal"/>
+			<xs:enumeration value="TrackedVehicle"/>
+			<xs:enumeration value="Timeout"/>
+			<xs:enumeration value="Vehicle"/>
+			<xs:enumeration value="Visual"/>
+			<xs:enumeration value="Walker"/>
+			<xs:enumeration value="WheeledVehicle"/>
+			<xs:enumeration value="Unknown"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	        
+   	-->
+	<xs:simpleType name="ConfidenceType">
+		<xs:annotation>
+			<xs:documentation>Enumerations of Confidence values.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="High"/>
+			<xs:enumeration value="Medium"/>
+			<xs:enumeration value="Low"/>
+			<xs:enumeration value="Unknown"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+    		        
+   	-->
+	<xs:complexType name="ConfidenceArrayType">
+		<xs:sequence>
+			<xs:element name="Confidence" type="ConfidenceType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--
+   
+   
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	   Multimedia types
+   	/////////////////////////////////////////////////////////////////////////////////////////////        
+   	
+   	
+   	-->
+	<xs:complexType name="ImageType">
+		<xs:annotation>
+			<xs:documentation>Image data, including optional Position information that can be used in georeferencing the image.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string" minOccurs="0"/>
+			<xs:element name="Description" type="xs:string" minOccurs="0"/>
+			<xs:element name="Location" type="Location" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="URL" type="xs:string" minOccurs="0"/>
+			<xs:element name="Height" type="xs:nonNegativeInteger" minOccurs="0"/>
+			<xs:element name="Width" type="xs:nonNegativeInteger" minOccurs="0"/>
+			<xs:element ref="UpdateTime" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--
+
+-->
+	<xs:complexType name="MediaUriType">
+		<xs:annotation>
+			<xs:documentation>Identifies a hyperlink to media content. Media meta-data may optionally be provided as attributes.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:anyURI">
+				<xs:attribute name="MimeType" type="MimeType" use="optional"/>
+				<xs:attribute name="Mode" type="MediaModeType" use="optional"/>
+				<xs:attribute name="FramesPerSecond" type="xs:nonNegativeInteger" use="optional"/>
+				<xs:attribute name="TimeTag" type="xs:dateTime" use="optional"/>
+				<xs:attribute name="Remarks" type="xs:string" use="optional"/>
+				<xs:attribute name="ExpirationDate" type="xs:dateTime" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!--
+
+-->
+	<xs:simpleType name="MediaModeType">
+		<xs:annotation>
+			<xs:documentation>Indication of whether video/imagery is live or not.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Live"/>
+			<xs:enumeration value="Archived"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--
+
+-->
+	<xs:simpleType name="MimeType">
+		<xs:annotation>
+			<xs:documentation>Structure for the MimeType attribute.
+              Example: "image/jpeg".</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-z]+/[\.\-a-z0-9]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	
+   	
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	   Configuration Elements
+   	/////////////////////////////////////////////////////////////////////////////////////////////        
+   	
+   	
+   
+   	   -->
+	<xs:element name="ConfigurationSetting">
+		<xs:annotation>
+			<xs:documentation>ConfigurationSetting elements are used to indicate values that can be any setting between a minimum and maximum value -  analogous to a setting represented on a slider. Definition (Name and Units) are intentionally left somewhat loose for added flexibility in defining new ConfigurationSetting values.  Use of MinimumValue, MaximumValue and CurrentValue is highly recommended for Reports, not required for Requests.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Units" type="xs:string" use="required"/>
+			<xs:attribute name="MinimumValue" type="xs:string" use="optional"/>
+			<xs:attribute name="MaximumValue" type="xs:string" use="optional"/>
+			<xs:attribute name="CurrentValue" type="xs:string" use="optional"/>
+			<xs:attribute name="Increment" type="xs:decimal" default="1"/>
+			<xs:attribute name="Description" type="xs:string" use="optional"/>
+			<xs:attribute name="Enabled" type="xs:boolean" default="true"/>
+			<xs:attribute name="RequiresExclusiveControl" type="xs:boolean" default="false"/>
+			<xs:attribute name="ReadOnly" type="xs:boolean" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- 
+	        
+	-->
+	<xs:element name="ConfigurationOptionBlock">
+		<xs:annotation>
+			<xs:documentation>ConfigurationOptionBlock elements provide a structure for grouping ConfigurationOptions. </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ConfigurationOption" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Units" type="xs:string" use="optional"/>
+			<xs:attribute name="ReadOnly" type="xs:boolean" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- 
+	        
+	-->
+	<xs:element name="ConfigurationOption">
+		<xs:annotation>
+			<xs:documentation>ConfigurationOption elements are used to indicate values that have discrete enumerations - analogous to options selectable via radio buttons. </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="optional"/>
+			<xs:attribute name="Option" type="xs:string" use="required"/>
+			<xs:attribute name="Selected" type="xs:boolean" use="required"/>
+			<xs:attribute name="Units" type="xs:string" use="optional"/>
+			<xs:attribute name="ReadOnly" type="xs:boolean" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- 
+	        
+	-->
+	<xs:element name="ConfigurationSet">
+		<xs:annotation>
+			<xs:documentation>The Configuration Set is used to organize several related configuration settings and options.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ConfigurationOption" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ConfigurationOptionBlock" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ConfigurationSetting" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="AnnotatedData" type="AnnotatedDataType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="Name" use="required">
+				<xs:annotation>
+					<xs:documentation>The Name attribute is the human-readable category for a set of variables (settings, options).</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Description" type="xs:string" use="optional"/>
+			<xs:attribute name="Enabled" type="xs:boolean" use="optional"/>
+			<xs:attribute name="RequiresExclusiveControl" type="xs:boolean" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- 
+   	
+   	
+   	/////////////////////////////////////////////////////////////////////////////////////////////
+   	   Event Assessment  types
+   	/////////////////////////////////////////////////////////////////////////////////////////////        
+   	
+   	        
+   	-->
+	<xs:complexType name="EventAssessmentType">
+		<xs:annotation>
+			<xs:documentation>Human-entered assessment annotations for events. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Assessment" type="AssessmentSelectionType"/>
+			<xs:element name="Annotation" type="xs:string" minOccurs="0"/>
+			<xs:element ref="UpdateTime" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+   	        
+   	   -->
+	<xs:complexType name="AssessmentSelectionType">
+		<xs:simpleContent>
+			<xs:extension base="PrimaryAssessmentType">
+				<xs:attribute name="SubType" type="SubAssessmentType" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+    		        
+   	-->
+	<xs:complexType name="AssessmentSelectionArrayType">
+		<xs:sequence>
+			<xs:element name="AssessmentSelection" type="AssessmentSelectionType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+   	        
+   	   -->
+	<xs:simpleType name="PrimaryAssessmentType">
+		<xs:annotation>
+			<xs:documentation>Enumerations for the primary alarm and event assessments.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Attack"/>
+			<xs:enumeration value="Authorized"/>
+			<xs:enumeration value="False"/>
+			<xs:enumeration value="Fault"/>
+			<xs:enumeration value="Intrusion"/>
+			<xs:enumeration value="Nuisance"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Positive"/>
+			<xs:enumeration value="Valid"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	   -->
+	<xs:simpleType name="SubAssessmentType">
+		<xs:annotation>
+			<xs:documentation>Enumerations for amplifying assessment information.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Aircraft"/>
+			<xs:enumeration value="Animal"/>
+			<xs:enumeration value="Controlled Detonation"/>
+			<xs:enumeration value="Debris"/>
+			<xs:enumeration value="ECP"/>
+			<xs:enumeration value="Explosive"/>
+			<xs:enumeration value="Friendly Fire"/>
+			<xs:enumeration value="Internal Fault"/>
+			<xs:enumeration value="Intrusion"/>
+			<xs:enumeration value="Low Battery"/>
+			<xs:enumeration value="Maintenance"/>
+			<xs:enumeration value="Mortar"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Patrol"/>
+			<xs:enumeration value="Personnel"/>
+			<xs:enumeration value="Rocket"/>
+			<xs:enumeration value="Self-Test"/>
+			<xs:enumeration value="Tamper"/>
+			<xs:enumeration value="Vehicle"/>
+			<xs:enumeration value="Weather"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	   -->
+	<xs:simpleType name="SecurityClassificationType">
+		<xs:annotation>
+			<xs:documentation>Enumerations for message classification.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Unclassified"/>
+			<xs:enumeration value="Secret"/>
+			<xs:enumeration value="Top Secret"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+   	        
+   	   -->
+	<xs:simpleType name="AffiliationType">
+		<xs:annotation>
+			<xs:documentation>The threat posed by the object; MIL-STD-2525B.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Assumed Friend"/>
+			<xs:enumeration value="Exercise Assumed Friend"/>
+			<xs:enumeration value="Exercise Friend"/>
+			<xs:enumeration value="Exercise Neutral"/>
+			<xs:enumeration value="Exercise Pending"/>
+			<xs:enumeration value="Exercise Unknown"/>
+			<xs:enumeration value="Faker"/>
+			<xs:enumeration value="Friend"/>
+			<xs:enumeration value="Friendly"/>
+			<xs:enumeration value="Hostile"/>
+			<xs:enumeration value="Joker"/>
+			<xs:enumeration value="Neutral"/>
+			<xs:enumeration value="None"/>
+			<xs:enumeration value="Pending"/>
+			<xs:enumeration value="Suspect"/>
+			<xs:enumeration value="Undefined"/>
+			<xs:enumeration value="Unknown"/>
+			<!-- Deprecated -->
+			<!-- Deprecated -->
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+    		        
+   	-->
+	<xs:complexType name="AffiliationArrayType">
+		<xs:sequence>
+			<xs:element name="Affiliation" type="AffiliationType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PersonnelInformation">
+		<xs:annotation>
+			<xs:documentation>This object defines the structure for returning personnel information from an ACS to the CCDE.  NOTE:  This item uses the ParameterType from the CommandMessage.xsd file.  It should probably be moved to the BasicTypes.xsd file.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ACSID" type="xs:string"/>
+			<xs:element name="PersonACSID" type="xs:string"/>
+			<xs:element name="SSN" type="xs:string"/>
+			<xs:element name="LastName" type="xs:string"/>
+			<xs:element name="FirstName" type="xs:string"/>
+			<xs:element name="MiddleName" type="xs:string" minOccurs="0"/>
+			<xs:element name="Address" type="AddressInformation" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Phone" type="PhoneInformation" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Photo" type="MediaUriType" minOccurs="0"/>
+			<xs:element name="Parameter" type="ParameterType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="VehicleRFID" type="xs:string" minOccurs="0"/>
+			<xs:element name="VehicleLicensePlate" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+    		        
+   	-->
+	<xs:complexType name="AddressInformation">
+		<xs:annotation>
+			<xs:documentation>This object defines a standard address format.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Street" type="xs:string" maxOccurs="unbounded"/>
+			<xs:element name="City" type="xs:string"/>
+			<xs:element name="Region" type="xs:string" minOccurs="0"/>
+			<xs:element name="Country" type="xs:string"/>
+			<xs:element name="PostalCode" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+    		        
+   	-->
+	<xs:complexType name="PhoneInformation">
+		<xs:annotation>
+			<xs:documentation>This object defines a standard phone format.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="PhoneType" type="PhoneType" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!-- 
+    		        
+   	-->
+	<xs:simpleType name="PhoneType">
+		<xs:annotation>
+			<xs:documentation>Sets the phone number type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DSN"/>
+			<xs:enumeration value="Home"/>
+			<xs:enumeration value="Mobile"/>
+			<xs:enumeration value="Office"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="Pager"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--    	
+   	
+   	///////////////////////////////////////////////////////////////////////
+   	   BETSS-C Sensor ICD elements
+   	///////////////////////////////////////////////////////////////////////        
+   	   	        
+	-->
+	<xs:simpleType name="ParameterModeType">
+		<xs:annotation>
+			<xs:documentation>This specifies the device condition.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Input"/>
+			<xs:enumeration value="Output"/>
+			<xs:enumeration value="InputOutput"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--
+
+	-->
+	<xs:simpleType name="SelectionModeType">
+		<xs:annotation>
+			<xs:documentation>
+				The Selection Modes for a Configuration OptionBlock.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Single"/>
+			<xs:enumeration value="Multi"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+	        
+	-->
+	<xs:complexType name="ConfigurationString">
+		<xs:annotation>
+			<xs:documentation>
+				ConfigurationString elements are used to indicate values that can be entered.
+				Typical Control: TextBox
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="Units" type="xs:string" use="optional"/>
+		<xs:attribute name="Label" type="xs:string" use="optional"/>
+		<xs:attribute name="Description" type="xs:string" use="optional"/>
+		<xs:attribute name="MinimumLength" type="xs:int" use="optional"/>
+		<xs:attribute name="MaximumLength" type="xs:int" use="optional"/>
+		<xs:attribute name="CurrentValue" type="xs:string" use="optional"/>
+		<xs:attribute name="ValidationRegex" type="xs:string" use="optional"/>
+		<xs:attribute name="Enabled" type="xs:boolean" default="true"/>
+		<xs:attribute name="RequiresExclusiveControl" type="xs:boolean" default="false"/>
+		<xs:attribute name="ReadOnly" type="xs:boolean" default="false"/>
+	</xs:complexType>
+	<!-- 
+	        
+	-->
+</xs:schema>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="DeviceDetectionReport.xsd"/>
+  <xs:include schemaLocation="DeviceStatusReport.xsd"/>
+  <xs:element name="PlatformDetectionReport">
+    <xs:annotation>
+      <xs:documentation>
+        @deprecated This schema element is deprecated.
+        It simply provides a sequence of DeviceDetectionReports, and since DeviceDetectionReport
+        already supports multiple devices, this schema is not necessary. In addition, if a construct were
+        added here to support arbitrary nesting of PlatformDetectionReports, the result would be 
+        unwieldy and difficult to process.  The DeviceDetectionReport should be used to report targets
+        from any/all devices, whether they are part of a platform or not.
+		</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="PlatformIdentification" type="DeviceIdentificationType"/>
+        <xs:element ref="DeviceDetectionReport" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="DeviceStatusReport" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

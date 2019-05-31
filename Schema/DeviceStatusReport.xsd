@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Henry C Foster (TRW) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="BasicTypes.xsd"/>
+	<xs:include schemaLocation="DeviceDetectionReport.xsd"/>
+	<xs:include schemaLocation="CommandMessage.xsd"/>
+	<xs:element name="DeviceStatusReport">
+		<xs:annotation>
+			<xs:documentation>The DeviceStatusReport is used for reporting general information about the State of a device. 
+			This includes:
+			     - Basic parameters definining the device (category, type, manufacturer info);
+			     - Internal device status including communication state;    
+			     - Information about where the device is located in 3-space;    
+			     - Detailed, optional information about specific device attributes.  Status and Location elements are 
+			        timetagged to indicate when they were last updated.  ImageLocation tag can be provided to aid in 
+			        georeferencing imagery reported by the device.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SecurityClassification" type="SecurityClassificationType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Security classification of this report.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Mode" type="DataModeType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Specifies whether this report is for testing purposes.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DeviceIdentification" type="DeviceIdentificationType">
+					<xs:annotation>
+						<xs:documentation>Identifies the device issuing this report.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="RequestorIdentification" type="DeviceIdentificationType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Identifies the device that issued the request.  This element must be present whenever generating a Request, which ONLY for requesting a full status from a device.</xs:documentation>
+					</xs:annotation>
+					<xs:key name="DeviceStatusReportDeviceType">
+						<xs:selector xpath="."/>
+						<xs:field xpath="DeviceType"/>
+					</xs:key>
+				</xs:element>
+				<xs:element name="Status" type="StatusType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Status of the device issuing this report.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Location" type="Location" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Location of the device issuing this report.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="Details" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Detailed information about the device issuing this report.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Detection" type="DetectionType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Information about any detectection(s).</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ICDVersion" type="ICDVersionType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Version of SEIWG ICD being used for standard message formatting.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="MessageType" type="MessageType" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- 
+	        
+	 -->
+	<xs:complexType name="StatusType">
+		<xs:annotation>
+			<xs:documentation>Status of the device or platform, including general state, communication state, and time the status information was last updated. Note that for simple contact closure / break beam devices, the DeviceState element can be used to report detections.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeviceState" type="StateType"/>
+			<xs:element name="DeviceSubState" type="SubStateType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="CommunicationState" type="CommunicationStateType" minOccurs="0"/>
+			<xs:element name="Tasks" type="ListType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="SupportedCommands" type="CommandList" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="StatusDetail" type="DetailedStatusType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="UpdateTime" type="AbsoluteTimeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- 
+	        
+	   -->
+	<xs:simpleType name="CommunicationStateType">
+		<xs:annotation>
+			<xs:documentation>Enumerations for Comm States.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Fail"/>
+			<xs:enumeration value="OK"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- 
+	        
+	-->
+	<xs:element name="Details">
+		<xs:annotation>
+			<xs:documentation>Detailed information about the device. All elements are optional except for UpdateTime. Mulitple Frequency elements can be provided to account for uplinks/downlinks. Image node is oriented toward geo-referenced snapshots.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="UpdateTime" type="AbsoluteTimeType" minOccurs="0"/>
+				<xs:element ref="ConfigurationSetting" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ConfigurationSet" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ConfigurationOption" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ConfigurationOptionBlock" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="AnnotatedData" type="AnnotatedDataType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="ConfigurationList" type="ListType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="Range" type="DistanceType" minOccurs="0"/>
+				<xs:element name="MinimumRange" type="DistanceType" minOccurs="0"/>
+				<xs:element name="MaximumRange" type="DistanceType" minOccurs="0"/>
+				<xs:element name="ElevationAngle" type="ElevationAngleType" minOccurs="0"/>
+				<xs:element name="Azimuth" type="AzimuthType" minOccurs="0"/>
+				<xs:element name="FieldOfView" type="AzimuthType" minOccurs="0"/>
+				<xs:element name="VerticalFieldOfView" type="AzimuthType" minOccurs="0"/>
+				<xs:element name="SymbolId" type="xs:string" minOccurs="0"/>
+				<xs:element name="Heading" type="AzimuthType" minOccurs="0"/>
+				<xs:element name="Speed" type="SpeedType" minOccurs="0"/>
+				<xs:element name="TimeToTarget" type="DeltaTimeType" minOccurs="0"/>
+				<xs:element name="Endurance" type="DeltaTimeType" minOccurs="0"/>
+				<xs:element name="RemainingBatteryTime" type="DeltaTimeType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Element deprecated, use Endurance.  Retained for backward compatibility.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Frequency" type="FrequencyType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="MediaURL" type="MediaUriType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="Zone" type="ZoneType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Element deprecated, use separate GeometryReport.  Retained for backward compatibility.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Image" type="ImageType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

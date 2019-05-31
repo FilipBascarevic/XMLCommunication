@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+   <xs:include schemaLocation="BasicTypes.xsd"/>
+   <xs:element name="GeometryReport">
+      <xs:annotation>
+         <xs:documentation>The Geometry interface is used to report and modify various types of geographic and spatial data including zones.</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="DeviceIdentification" type="DeviceIdentificationType" minOccurs="0">
+               <xs:annotation>
+                  <xs:documentation>Identifies the entity associated with this report or, in the case of a request/response, the entity to which the request is being made.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="RequestorIdentification" type="DeviceIdentificationType" minOccurs="0">
+               <xs:annotation>
+                  <xs:documentation>Identifies the entity which initiated the request in a request/response.</xs:documentation>
+               </xs:annotation>
+            </xs:element>            
+            <xs:element name="Zone" type="ZoneType" minOccurs="0" maxOccurs="unbounded"/>
+         </xs:sequence>
+				<xs:attributeGroup ref="MessageContext"/>
+			</xs:complexType>
+   </xs:element>
+</xs:schema>

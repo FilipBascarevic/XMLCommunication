@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="BasicTypes.xsd"/>
+	<xs:element name="SubscriptionConfiguration">
+		<xs:annotation>
+			<xs:documentation>The Subscription interface is used to Request subscriptions to available reports and Report available/active subscriptions</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="DeviceIdentification" type="DeviceIdentificationType">
+					<xs:annotation>
+						<xs:documentation>Identifies the entity which is being subscribed to.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="RequestorIdentification" type="DeviceIdentificationType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Identifies the entity that issued the subscription request.  This element must be present whenever generating a Request/Response message.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Subscription" type="SubscriptionOptionType" minOccurs="0" maxOccurs="unbounded"/>
+				<!-- DeviceIdentification refers to the Device/system providing the subscription service.
+				       RequestorIdentification should be provided whenever generating a Request -->
+				<xs:element name="ICDVersion" type="ICDVersionType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Version of SEIWG ICD being used for standard message formatting.  If none is provided, SEIWG-0100 is assumed to be the message format.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="MessageContext"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

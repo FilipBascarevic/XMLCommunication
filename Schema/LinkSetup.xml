@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<DeviceConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" MessageType="Request" RequestId="1">
+  <DeviceIdentification>
+    <DeviceName>Test Node</DeviceName>
+  </DeviceIdentification>
+  <ConfigurationOptionBlock Name="LinkMode">
+    <ConfigurationOption Option="legacy" Selected="false" />
+    <ConfigurationOption Option="0101B" Selected="false" />
+    <ConfigurationOption Option="0101B-EOX" Selected="true" />
+  </ConfigurationOptionBlock>
+</DeviceConfiguration>
+

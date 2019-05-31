@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="BasicTypes.xsd"/>
+	<xs:element name="DeviceInitialization">
+		<xs:annotation>
+			<xs:documentation>The DeviceInitialization construct is used to store initialization information that might otherwise reside in an initialization file.  This construct can be used during a handshake, for example, when establishing communication between devices. Note                         that a device may be a simple device, a large C2 system,  or anything in between. The ICDVersion is used to identify  which version of the ICD the system supports, for forwards and backwards compatibility.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="DeviceIdentification" type="DeviceIdentificationType"/>
+				<xs:element name="ICDVersion" type="ICDVersionType" maxOccurs="unbounded"/>
+				<xs:element name="LocationType" type="LocationType" minOccurs="0"/>
+				<xs:element name="ServerIdentification" type="DeviceIdentificationType"/>
+			</xs:sequence>
+			<xs:attribute name="MessageType" type="MessageType" use="optional"/>
+			<xs:attribute name="RequestId" type="xs:string" use="optional"/>
+			<xs:attribute name="Status" type="ConfigurationStatusType" use="optional"/>
+			<xs:attribute name="ErrorSeverity" type="SeverityType" use="optional"/>
+			<xs:attribute name="Details" type="xs:string" use="optional"/>
+			<!-- Status is only applicable to Responses -->
+			<!-- ErrorSeverity and Details can be used to report the 
+                             nature and cause for unsuccessful Status -->
+		</xs:complexType>
+		<!--$Id: DeviceInitialization.xsd,v 1.7 2005/11/11 14:08:15 adeniz Exp $ 
+	        
+	-->
+	</xs:element>
+	<!-- -->
+</xs:schema>

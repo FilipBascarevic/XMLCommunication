@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 rel. 2 (http://www.altova.com) by Ravi Saxena (Raven LLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="BasicTypes.xsd"/>
+	<xs:element name="DeviceDetectionReport">
+		<xs:annotation>
+			<xs:documentation>The DeviceDetectionReport message is used to report  detection and target information for a device. This includes: Detection (simple detection with no location information); Target (with location information; multiple targets may be reported); Media (video or imagery associated with detection, optional); Operator assessment - generally done on a per-DeviceDetectionRecord basis, but can be applied to individual Detection or Target records.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SecurityClassification" type="SecurityClassificationType" minOccurs="0"/>
+				<xs:element name="Mode" type="DataModeType" minOccurs="0"/>
+				<xs:element name="DeviceDetectionRecord" type="DeviceDetectionRecord" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+		<!--$Id: DeviceDetectionReport.xsd,v 1.7 2006/05/23 11:45:20 adeniz Exp $
+      	-->
+	</xs:element>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="DeviceDetectionRecord">
+		<xs:annotation>
+			<xs:documentation>Construct for grouping related targets and/or detections.  Multiple DeviceDetectionRecords may be included within a single  DeviceDetectionReport from a device/system.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeviceIdentification" type="DeviceIdentificationType" minOccurs="0"/>
+			<xs:choice>
+				<xs:element name="Detection" type="DetectionType" minOccurs="1" maxOccurs="unbounded"/>
+				<xs:element name="Target" type="TargetType" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:choice>
+			<xs:element name="EventAssessment" type="EventAssessmentType" minOccurs="0"/>
+			<xs:element name="MediaURL" type="MediaUriType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Zone" type="ZoneReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="UpdateHistory" type="ChangeTrackingType" minOccurs="0" maxOccurs="unbounded"/>
+			<!-- UpdateHistory: Should be populated to indicate sensor/system updating the event, along with associated timetag -->
+		</xs:sequence>
+		<xs:attribute name="ReportMode" type="CommandModeType" use="optional"/>
+		<xs:attribute name="ReadOnly" type="xs:boolean" use="optional"/>
+		<!-- ReportMode: optional attribute to indicate if this is a new/modified track or if the track should be deleted -->
+		<!-- ReadOnly: optional attribute to indicate whether this track may be modified -->
+	</xs:complexType>
+	<!-- 
+   	        	        
+       -->
+	<xs:complexType name="DetectionType">
+		<xs:annotation>
+			<xs:documentation>Construct for reporting a detection; unlike a Target report, this does not 
+			require location information.  Optional Details node can be populated with amplifying information
+			about the event.  "Assessed", "Acknowledged", and "Secured" attributes can be used to indicate 
+			if operations have been performed by the system _outputting_ this  message - presumably, this 
+			would only be done by a manned system.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ID" type="xs:string" minOccurs="0"/>
+			<xs:element name="PersonnelDetected" type="PersonnelInformation" minOccurs="0"/>
+			<xs:element name="EventTime" type="AbsoluteTimeType" minOccurs="0"/>
+			<xs:element name="DetectionEvent" type="DetectionEventType"/>
+			<xs:element name="Affiliation" type="AffiliationType" minOccurs="0"/>
+			<xs:element name="Details" type="xs:string" minOccurs="0"/>
+			<xs:element name="MediaURL" type="MediaUriType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="EventAssessment" type="EventAssessmentType" minOccurs="0"/>
+			<xs:element name="Target" type="TargetType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Zone" type="ZoneType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="UpdateTime" type="AbsoluteTimeType"/>
+			<xs:element name="UpdateHistory" type="ChangeTrackingType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Acknowledged" type="xs:boolean" use="optional"/>
+		<xs:attribute name="Assessed" type="xs:boolean" use="optional"/>
+		<xs:attribute name="Secured" type="xs:boolean" use="optional"/>
+	</xs:complexType>
+	<!-- 
+   	        	        
+       -->
+	<xs:complexType name="TargetType">
+		<xs:annotation>
+			<xs:documentation>Target information gathered by the device. Targets must include a location and 
+			UpdateTime, remaining elements are optional. Links to Media can be provided for individual targets. 
+			"Assessed", "Acknowledged", and "Secured" attributes can be used to indicate 
+			if operations have been performed by the system _outputting_ this  message - presumably, this 
+			would only be done by a manned system.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ID" type="xs:string" minOccurs="0"/>
+			<xs:element name="EventTime" type="AbsoluteTimeType" minOccurs="0"/>
+			<xs:element name="TargetLocation" type="TargetLocationType"/>
+			<xs:element name="Affiliation" type="AffiliationType" minOccurs="0"/>
+			<xs:element name="Priority" type="xs:positiveInteger" minOccurs="0"/>
+			<xs:element name="SymbolId" type="xs:string" minOccurs="0"/>
+			<xs:element name="Classification" type="DetectionEventType" minOccurs="0"/>
+			<xs:element name="Confidence" type="ConfidenceType" minOccurs="0"/>
+			<xs:element name="Heading" type="AzimuthType" minOccurs="0"/>
+			<xs:element name="Speed" type="SpeedType" minOccurs="0"/>
+			<xs:element name="Description" type="xs:string" minOccurs="0"/>
+			<xs:element name="Hierarchy" type="xs:string" minOccurs="0"/>
+			<xs:element name="MediaURL" type="MediaUriType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Correlation" type="CorrelationType" minOccurs="0"/>
+			<xs:element name="EventAssessment" type="EventAssessmentType" minOccurs="0"/>
+			<xs:element name="ExpirationTime" type="AbsoluteTimeType" minOccurs="0"/>
+			<xs:element name="UpdateTime" type="AbsoluteTimeType" minOccurs="1"/>
+			<xs:element name="UpdateHistory" type="ChangeTrackingType" minOccurs="0" maxOccurs="unbounded"/>
+			<!-- Priority: from 1 to N, 1 being highest -->
+			<!-- SymbolId: MIL-STD-2525B Symbol Id (Example: SFGPUSXOMT*****) -->
+			<!-- Description: MIL-STD-2525B Description (Example: Ground Track/Equipment/Sensor/Emplaced) -->
+			<!-- Hierarchy: MIL-STD-2525B Hierarchy (Example: 1.X.3.2.3.2) -->
+			<!-- Heading: the direction the track is moving -->
+			<!-- Speed: self-explanatory -->
+			<!-- EventAssessment: operator-entered assessment of this event -->
+			<!-- ExpirationTime: time at which target data is considered obsolete -->
+			<xs:element name="TargetParameter" type="ParameterType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Any additional target parameters that contain data that is not accurately represented by the other Target child elements, can be included as a TargetParameter.  </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Acknowledged" type="xs:boolean" use="optional"/>
+		<xs:attribute name="Assessed" type="xs:boolean" use="optional"/>
+		<xs:attribute name="Secured" type="xs:boolean" use="optional"/>
+	</xs:complexType>
+	<!-- 
+   	        
+   	-->
+	<xs:complexType name="TargetLocationType">
+		<xs:annotation>
+			<xs:documentation>Depending upon the device, Targets may be reported at an absolute x/y/z location, 
+			or at a location relative to the device.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="LocationType" type="LocationType"/>
+				<xs:element name="RelativeLocationType" type="RelativeLocationType"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CorrelationType">
+		<xs:annotation>
+			<xs:documentation>Construct for reporting a correlation.  The appends metadata to the original Detection report (along with Target metadata).  The metadata describes whether or not the target information had an effect on the correlation modeling.  For records that had an effect, this data points to the ID of the consolidated record generated by the correlation model.</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="CorrelationAssessment" type="CorrelationAssessmentType"/>
+			<xs:element name="CorrelationID" type="xs:string" minOccurs="0"/>
+			<xs:element name="UpdateTime" type="AbsoluteTimeType"/>
+		</xs:all>
+	</xs:complexType>
+	<!---->
+	<xs:simpleType name="CorrelationAssessmentType">
+		<xs:annotation>
+			<xs:documentation>Indicates whether or not the message had an effect on the correlation model.  Also indicates whether or not the message is the resulting consolidated detection via the IFF (Identify Friend or Foe correlation) model.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NA"/>
+			<xs:enumeration value="No Effect"/>
+			<xs:enumeration value="Effect"/>
+			<xs:enumeration value="Result"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!---->
+</xs:schema>

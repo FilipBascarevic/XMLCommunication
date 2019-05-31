@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="DeviceStatusReport.xsd"/>
+	<xs:element name="PlatformStatusReport">
+		<xs:annotation>
+			<xs:documentation>The PlatformStatusReport is used for reporting status for a collection of Devices. Such collections include multiple imagers residing on a UAV, a collection of sensors reporting to a central node, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SecurityClassification" type="SecurityClassificationType" minOccurs="0"/>
+				<xs:element name="Mode" type="DataModeType" minOccurs="0"/>
+				<xs:element name="PlatformIdentification" type="DeviceIdentificationType">
+					<xs:key name="PlatformStatusReportDeviceType">
+						<xs:selector xpath="."/>
+						<xs:field xpath="DeviceType"/>
+					</xs:key>
+				</xs:element>
+				<xs:element name="Status" type="StatusType" minOccurs="0"/>
+				<xs:element name="Location" type="Location" minOccurs="0"/>
+				<xs:element ref="Details" minOccurs="0"/>
+				<xs:element name="Detection" type="DetectionType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Information about any detectection(s).  In this context, it is meant for special device alarms such as tampers and faults.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="PlatformStatusReport" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="DeviceStatusReport" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="ICDVersion" type="ICDVersionType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Version of SEIWG ICD being used for standard message formatting.  If none is provided, SEIWG-0100 is assumed to be the message format.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+		<!--$Id: PlatformStatusReport.xsd,v 1.2 2005/08/10 11:39:32 adeniz Exp $ 
+	        
+	-->
+	</xs:element>
+	<!-- 
+	        
+	   -->
+</xs:schema>

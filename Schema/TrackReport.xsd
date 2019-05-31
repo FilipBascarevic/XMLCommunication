@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="BasicTypes.xsd"/>
+	<xs:element name="TrackReport">
+		<xs:annotation>
+			<xs:documentation>The TrackReport is used to report relevant information about one or more Tracks. This report is DEPRECATED; use of the DeviceDetectionReport is recommended for reporting detections/targets/tracks of all types.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Originator" type="DeviceIdentificationType" minOccurs="0"/>
+				<xs:element ref="Track" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+		<!--
+      	        
+      	-->
+	</xs:element>
+	<!-- 
+   	        
+   	   -->
+	<xs:element name="Track">
+		<xs:annotation>
+			<xs:documentation>Track information. Targets must include an ID, Location,  and UpdateTime,     remaining elements are optional. </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="IdString" type="xs:string" minOccurs="0"/>
+				<xs:element name="Location" type="LocationType"/>
+				<xs:element ref="UpdateTime"/>
+				<xs:element name="Originator" type="DeviceIdentificationType" minOccurs="0"/>
+				<xs:element name="Affiliation" type="AffiliationType"/>
+				<xs:element name="Priority" type="xs:positiveInteger" minOccurs="0"/>
+				<xs:element name="MediaURL" type="MediaUriType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="Description" type="xs:string" minOccurs="0"/>
+				<xs:element name="Hierarchy" type="xs:string" minOccurs="0"/>
+				<xs:element name="SymbolId" type="xs:string" minOccurs="0"/>
+				<xs:element name="Heading" type="AzimuthType" minOccurs="0"/>
+				<xs:element name="Speed" type="SpeedType" minOccurs="0"/>
+				<xs:element name="EventAssessment" type="EventAssessmentType" minOccurs="0"/>
+				<!-- Priority: from 1 to N, 1 being highest -->
+				<!-- MediaURL: streaming video or other imagery associated with the Target -->
+				<!-- Description: MIL-STD-2525B Description (Example: Ground Track/Equipment/Sensor/Emplaced) -->
+				<!-- Hierarchy: MIL-STD-2525B Hierarchy (Example: 1.X.3.2.3.2) -->
+				<!-- SymbolId: MIL-STD-2525B Symbol Id (Example: SFGPUSXOMT*****) -->
+				<!-- Heading: the direction the track is moving -->
+				<!-- Speed: self-explanatory -->
+				<!-- EventAssessment: operator-entered assessment of this event -->
+			</xs:sequence>
+			<xs:attribute name="ReportMode" type="CommandModeType" use="optional"/>
+			<xs:attribute name="ReadOnly" type="xs:boolean" use="optional"/>
+			<!-- ReportMode: optional attribute to indicate if this is a new/modified track or if the track should be deleted -->
+			<!-- ReadOnly: optional attribute to indicate whether this track may be modified -->
+		</xs:complexType>
+	</xs:element>
+	<!-- 
+   	        
+   	   -->
+</xs:schema>

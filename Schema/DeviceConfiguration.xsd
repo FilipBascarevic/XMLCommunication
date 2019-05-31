@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="BasicTypes.xsd"/>
+	<xs:element name="DeviceConfiguration">
+		<xs:annotation>
+			<xs:documentation>The DeviceConfiguration message is used to report current configuration settings and options and request updates to configuration settings.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="DeviceIdentification" type="DeviceIdentificationType"/>
+				<xs:element name="RequestorIdentification" type="DeviceIdentificationType" minOccurs="0"/>
+				<xs:element ref="ConfigurationSet" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ConfigurationSetting" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="AnnotatedData" type="AnnotatedDataType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ConfigurationOptionBlock" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ConfigurationOption" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="PresetConfiguration" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="DeviceConfiguration" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ZoneConfiguration" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="ICDVersion" type="ICDVersionType" minOccurs="0"/> <!-- Modified by SRC: Removed default value; see http://support.microsoft.com/kb/325691 --> 
+				<!-- RequestorIdentification should be provided whenever generating a Request/Command message -->
+			</xs:sequence>
+			<xs:attribute name="MessageType" type="MessageType" use="required"/>
+			<xs:attribute name="RequestId" type="xs:string" use="optional"/>
+			<xs:attribute name="Status" type="ConfigurationStatusType" use="optional"/>
+			<xs:attribute name="ErrorSeverity" type="SeverityType" use="optional"/>
+			<xs:attribute name="Details" type="xs:string" use="optional"/>
+			<!-- Status is only applicable to Responses -->
+			<!-- ErrorSeverity and Details can be used to report the nature and cause for unsuccessful Status -->
+		</xs:complexType>
+		<!--$Id: DeviceConfiguration.xsd,v 1.7 2005/11/11 14:02:25 adeniz Exp $ 
+	        
+	-->
+	</xs:element>
+	<!-- 
+	        
+	   -->
+	<xs:element name="ZoneConfiguration">
+		<xs:annotation>
+			<xs:documentation>ZoneConfiguration elements are used to report zones currently in use by the device, as well as to provide a control interface for Creating, Updating, and Deleting zones.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Zone" type="ZoneType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="CommandMode" type="CommandModeType" use="optional"/>
+			<!-- CommandMode should only be used when requesting a device to Create or modify a zone.  
+			The Device would not use this attribute when reporting Zones. -->
+		</xs:complexType>
+	</xs:element>
+	<!-- 
+	        	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	   Presets
+	/////////////////////////////////////////////////////////////////////////////////////////////        
+	
+	
+	-->
+	<xs:element name="Preset">
+		<xs:annotation>
+			<xs:documentation>Construct for storing Presets. </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Description" type="xs:string" minOccurs="0"/>
+				<xs:element ref="ConfigurationSetting" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ConfigurationOptionBlock" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ConfigurationOption" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="Id" type="xs:nonNegativeInteger" use="optional"/>
+			<!-- id should be considered required except when a client is requesting the device to create a new Preset -->
+		</xs:complexType>
+	</xs:element>
+	<!-- 
+	        
+	-->
+	<xs:element name="PresetConfiguration">
+		<xs:annotation>
+			<xs:documentation>PresetConfiguration elements are used to report presets currently existing on the device, as well as to provide a control interface for Creating, Updating, and Deleting presets.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Preset" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="CommandMode" type="CommandModeType" use="optional"/>
+			<!-- CommandMode should only be used when requesting a device to Create or modify a zone.  
+			The Device would not use this attribute when reporting Presets. Interface can also be used to 
+			DeleteAll presets.  -->
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
