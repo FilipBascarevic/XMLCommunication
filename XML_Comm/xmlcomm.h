@@ -92,7 +92,7 @@ class XMLComm : public QObject
     Q_OBJECT
 
     QTcpSocket *tcpSocket;
-    qint16 port;
+    quint16 port_m;
     QDataStream in;
     QString msgBuffer;
     QString currXML;
@@ -109,6 +109,9 @@ public:
 private:
     Q_SLOT void readData();
     bool validateMsg(QString msg);
+
+public slots:
+    void connected();
 
 public:
     Q_SIGNAL void OnDeviceStatusReceived(MessageReceivedEventArgs &);

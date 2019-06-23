@@ -3,7 +3,7 @@
 XMLComm::XMLComm(QObject *parent) : QObject(parent)
 {
     tcpSocket = nullptr;
-    port = 0;
+    port_m = 0;
 }
 
 XMLComm::XMLComm(quint16 port, QObject *parent) : QObject(parent)
@@ -16,12 +16,16 @@ XMLComm::~XMLComm()
     tcpSocket->disconnectFromHost();
 
     tcpSocket = nullptr;
-    port = 0;
+    port_m = 0;
 }
 
 void XMLComm::openSocket(quint16 &port)
 {
     tcpSocket = new QTcpSocket;
+
+    // connect readReady signal to method for reading
+    QObject::connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readData()));
+    QObject::connect(tcpSocket, SIGNAL(connected()), this, SLOT(connected()));
 
     // be sure that socket is unused
     tcpSocket->abort();
@@ -30,27 +34,39 @@ void XMLComm::openSocket(quint16 &port)
     tcpSocket -> setReadBufferSize(4096);
 
     // connect socket
-    tcpSocket -> connectToHost(QHostAddress::Any, port);
+    //tcpSocket->setProxy(QNetworkProxy::NoProxy);
+    QHostAddress address("192.168.224.1");
+    tcpSocket->bind(address, port);
+    port_m = port;
+    tcpSocket -> connectToHost(tcpSocket ->localAddress(), tcpSocket ->localPort());
+    qDebug() << tcpSocket ->localAddress();
+    qDebug() << tcpSocket ->localPort();
 
-    if (tcpSocket -> waitForConnected(1000)) {
+    if (tcpSocket -> waitForConnected()) {
         qDebug("Connected!!!");
 
         in.setDevice(tcpSocket);
         in.setVersion(QDataStream::Qt_4_0);
-        // connect readReady signal to method for reading
-        QObject::connect(tcpSocket, &QIODevice::readyRead, this, &XMLComm::readData);
+
     }
     else {
         qDebug("Not Connected!!!");
+        qDebug() << tcpSocket->errorString();
         // release socket
         tcpSocket -> abort();
     }
 }
 
+void XMLComm::connected()
+{
+    qDebug() << "connected...";
+
+}
+
 Q_SLOT void XMLComm::readData()
 {
-    in.startTransaction();
 
+    in.startTransaction();
     //
     QString nextRead;
     in >> nextRead;
