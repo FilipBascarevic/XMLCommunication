@@ -26,7 +26,7 @@
    		        
    	-->
 	<xs:complexType name="DeviceIdentificationType">
-		<xs:all>
+		<xs:sequence>
 			<xs:element name="Mode" type="DataModeType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Mode device transmitted message in.</xs:documentation>
@@ -115,7 +115,7 @@
 					<xs:documentation>Device serial number. </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-		</xs:all>
+		</xs:sequence>
 	</xs:complexType>
 	<!-- 
     		        
@@ -211,10 +211,10 @@
 		<xs:annotation>
 			<xs:documentation>Current location of an entity (x, y, z) plus tag indicating  when the location was last updated. Optional Position attribute can be used to help georeference an image to an actual location.</xs:documentation>
 		</xs:annotation>
-		<xs:all>
+		<xs:sequence>
 			<xs:element name="LocationType" type="LocationType"/>
 			<xs:element ref="UpdateTime" minOccurs="0"/>
-		</xs:all>
+		</xs:sequence>
 		<xs:attribute name="Position" type="ImagePositionType" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="LocationType">
@@ -243,11 +243,11 @@
 		<xs:annotation>
 			<xs:documentation>Relative Location of entity from Device using Range, Azumith, and Angle</xs:documentation>
 		</xs:annotation>
-		<xs:all>
+		<xs:sequence>
 			<xs:element name="Range" type="DistanceType" minOccurs="0"/>
 			<xs:element name="Azimuth" type="AzimuthType" minOccurs="0"/>
 			<xs:element name="ElevationAngle" type="ElevationAngleType" minOccurs="0"/>
-		</xs:all>
+		</xs:sequence>
 		<xs:attribute name="Reference" type="AzimuthReferencePointType" default="Self"/>
 	</xs:complexType>
 	<!-- 
@@ -258,11 +258,11 @@
 			<xs:documentation>Geodetic (latitude, longitude) elements</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
-			<xs:all>
+			<xs:sequence>
 				<xs:element name="Latitude" type="LatitudeType"/>
 				<xs:element name="Longitude" type="LongitudeType"/>
 				<xs:element name="Altitude" type="AltitudeType" minOccurs="0"/>
-			</xs:all>
+			</xs:sequence>
 			<xs:attribute name="Datum" type="DatumType" use="required"/>
 		</xs:complexType>
 	</xs:element>
@@ -274,13 +274,13 @@
 			<xs:documentation>Universal Transverse Mercator coordinates.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
-			<xs:all>
+			<xs:sequence>
 				<xs:element name="Zone" type="UTMZoneType"/>
 				<xs:element name="Hemisphere" type="HemisphereType"/>
 				<xs:element name="Easting" type="nonNegativeDistance"/>
 				<xs:element name="Northing" type="nonNegativeDistance"/>
 				<xs:element name="Altitude" type="AltitudeType" minOccurs="0"/>
-			</xs:all>
+			</xs:sequence>
 			<xs:attribute name="Datum" type="DatumType" use="required"/>
 		</xs:complexType>
 	</xs:element>
@@ -292,7 +292,7 @@
 			<xs:documentation>Military Grid Reference System coordinates.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
-			<xs:all>
+			<xs:sequence>
 				<xs:element name="Zone" type="UTMZoneType"/>
 				<xs:element name="ZoneLetter" type="MgrsCharacterType"/>
 				<xs:element name="RowLetter" type="MgrsCharacterType"/>
@@ -300,7 +300,7 @@
 				<xs:element name="Easting" type="nonNegativeDistance"/>
 				<xs:element name="Northing" type="nonNegativeDistance"/>
 				<xs:element name="Altitude" type="AltitudeType" minOccurs="0"/>
-			</xs:all>
+			</xs:sequence>
 			<xs:attribute name="Datum" type="DatumType" use="required"/>
 		</xs:complexType>
 	</xs:element>
@@ -313,11 +313,11 @@
 			Example is a point in a video image, expressed in x/y pixels.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
-			<xs:all>
+			<xs:sequence>
 				<xs:element name="x" type="DoubleWithUnitsType"/>
 				<xs:element name="y" type="DoubleWithUnitsType"/>
 				<xs:element name="z" type="DoubleWithUnitsType" minOccurs="0"/>
-			</xs:all>
+			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 	
@@ -454,11 +454,11 @@
 		<xs:annotation>
 			<xs:documentation>Uncertainty of location expressed as an XY plane (projected onto earth's surface) error ellipse. Major axis is oriented along reported azimuth, with zero being due North.</xs:documentation>
 		</xs:annotation>
-		<xs:all>
+		<xs:sequence>
 			<xs:element name="MajorAxisLength_XY" type="DistanceType"/>
 			<xs:element name="MinorAxisLength_XY" type="DistanceType"/>
 			<xs:element name="MajorAxisAzimuth_XY" type="AzimuthType"/>
-		</xs:all>
+		</xs:sequence>
 	</xs:complexType>
 	<!-- 
    	
@@ -617,11 +617,11 @@
 		<xs:annotation>
 			<xs:documentation>Type used to define a schedule for a particular event. Contains mandatory start time; stop time and recurrence are optional. Note that for recurring events, parameters of first event are used as the model; for example, an event with a Weekly recurrence would be scheduled to occur each week on whatever day the initial StartTime fell on.</xs:documentation>
 		</xs:annotation>
-		<xs:all>
+		<xs:sequence>
 			<xs:element name="StartTime" type="AbsoluteTimeType"/>
 			<xs:element name="StopTime" type="AbsoluteTimeType" minOccurs="0"/>
 			<xs:element name="Recurrence" type="RecurrenceType" minOccurs="0"/>
-		</xs:all>
+		</xs:sequence>
 	</xs:complexType>
 	<!-- 
    	        
@@ -803,13 +803,13 @@
 			<xs:documentation>Provides information about the sector(s) scanned by this device. Sectors are defined by a radial sweep from the device's location and thus are primarily applicable to Radar systems.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
-			<xs:all>
+			<xs:sequence>
 				<xs:element name="MinimumRange" type="DistanceType"/>
 				<xs:element name="MaximumRange" type="DistanceType"/>
 				<xs:element name="MinimumAzimuth" type="AzimuthType"/>
 				<xs:element name="MaximumAzimuth" type="AzimuthType"/>
 				<xs:element name="ElevationAngle" type="ElevationAngleType"/>
-			</xs:all>
+			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 	<!-- 
@@ -1063,12 +1063,12 @@
 		<xs:annotation>
 			<xs:documentation>Provides a construct for managing a queue or task list.</xs:documentation>
 		</xs:annotation>
-		<xs:all>
+		<xs:sequence>
 			<xs:element name="Id" type="xs:string" minOccurs="0"/>
 			<xs:element name="Name" type="xs:string" minOccurs="0"/>
 			<xs:element name="Priority" type="xs:positiveInteger" minOccurs="0"/>
 			<xs:element name="Status" type="JobStatusType" minOccurs="0"/>
-		</xs:all>
+		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ParameterType">
 		<xs:annotation>

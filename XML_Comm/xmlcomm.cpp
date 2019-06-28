@@ -21,64 +21,80 @@ XMLComm::~XMLComm()
 
 void XMLComm::openSocket(quint16 &port)
 {
-    tcpSocket = new QTcpSocket;
+    tcpServer = new QTcpServer;
 
-    // connect readReady signal to method for reading
-    QObject::connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readData()));
-    QObject::connect(tcpSocket, SIGNAL(connected()), this, SLOT(connected()));
+    connect(tcpServer, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
 
-    // be sure that socket is unused
-    tcpSocket->abort();
+    if(!tcpServer->listen(QHostAddress("192.168.224.1"), port))
+        qDebug() << "<DataReceiver> Server could not start. ";
+    else
+        qDebug() << "<DataReceiver> Server started !";
 
-    // set buffer size to 4kB
-    tcpSocket -> setReadBufferSize(4096);
+    qDebug() << tcpServer->serverPort();
+    qDebug() << tcpServer->serverAddress();
 
-    // connect socket
-    //tcpSocket->setProxy(QNetworkProxy::NoProxy);
-    QHostAddress address("192.168.224.1");
-    tcpSocket->bind(address, port);
     port_m = port;
-    tcpSocket -> connectToHost(tcpSocket ->localAddress(), tcpSocket ->localPort());
-    qDebug() << tcpSocket ->localAddress();
-    qDebug() << tcpSocket ->localPort();
+
+    //qDebug() << "onNewConnection called !";
+    //tcpSocket = tcpServer->nextPendingConnection();
+
+    //connect(tcpSocket, SIGNAL(readyRead()),    this, SLOT(readData()));
+    //connect(tcpSocket, SIGNAL(disconnected()), this, SLOT(onDisconnect()));
+}
+
+void XMLComm::onNewConnection(){
+    qDebug() << "onNewConnection called !";
+    tcpSocket = tcpServer->nextPendingConnection();
+
+    connect(tcpSocket, SIGNAL(readyRead()),    this, SLOT(readData()));
+    connect(tcpSocket, SIGNAL(disconnected()), this, SLOT(onDisconnect()));
 
     if (tcpSocket -> waitForConnected()) {
         qDebug("Connected!!!");
-
-        in.setDevice(tcpSocket);
-        in.setVersion(QDataStream::Qt_4_0);
 
     }
     else {
         qDebug("Not Connected!!!");
         qDebug() << tcpSocket->errorString();
-        // release socket
-        tcpSocket -> abort();
     }
 }
 
-void XMLComm::connected()
+void XMLComm::onConnect()
 {
     qDebug() << "connected...";
 
 }
 
+void XMLComm::onDisconnect(){
+    qDebug() << "QTcpSocket disconnected...";
+    disconnect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readData()));
+    disconnect(tcpSocket, SIGNAL(disconnected()), this, SLOT(onDisconnect()));
+}
+
 Q_SLOT void XMLComm::readData()
 {
 
-    in.startTransaction();
+    qDebug("readReady is occurred!!!");
     //
-    QString nextRead;
-    in >> nextRead;
+    QByteArray nextRead;
+
+    //QByteArray readData = ;
+
+    //qDebug() << readData;
+
+    nextRead = tcpSocket -> readAll();
 
     // concatenate previous message and new read
-    msgBuffer = msgBuffer % nextRead;
+    msgBuffer = msgBuffer.append(nextRead);
+
+    //qDebug() << msgBuffer;
 
     //try to find ENDOFXML in msgBuffer
     int idx = msgBuffer.indexOf("<ENDOFXML/>");
 
     // if in msgBugger is found ENDOFXML then make substring with xml
-    if (idx >= 0) {
+    while (idx >= 0) {
+
         // Grab everything up to ENDOFXML as a message
         currXML = msgBuffer.mid(0, idx);
 
@@ -89,50 +105,67 @@ Q_SLOT void XMLComm::readData()
             // DeviceStatusReport
             if (rootNode == "DeviceStatusReport") {
                 emit OnDeviceStatusReceived(args);
+                qDebug() << "DeviceStatusReport";
             }
             // DeviceConfiguration
             else if (rootNode == "DeviceConfiguration") {
                 emit OnDeviceConfigurationReceived(args);
+                qDebug() << "DeviceConfiguration";
             }
             // DeviceDetectionReport
             else if (rootNode == "DeviceDetectionReport") {
                 emit OnDeviceDetectionReceived(args);
+                qDebug() << "DeviceDetectionReport";
             }
             else if (rootNode == "CommandMessage") {
                emit OnCommandMsgReceived(args);
+               qDebug() << "CommandMessage";
             }
             else if (rootNode == "DeviceInitialization") {
                emit OnDeviceInitializationMsgReceived(args);
+               qDebug() << "DeviceInitialization";
             }
             else if (rootNode == "GeometryReport") {
                emit OnGeometryReportMsgReceived(args);
+               qDebug() << "GeometryReport";
             }
             else if (rootNode == "PlatformDetectionReport") {
                emit OnPlatformDetectionReportMsgReceived(args);
+               qDebug() << "PlatformDetectionReport";
             }
             else if (rootNode == "PlatformStatusReport") {
                emit OnPlatformStatusReportMsgReceived(args);
+               qDebug() << "PlatformStatusReport";
             }
             else if (rootNode == "SubscriptionConfiguration") {
                emit OnSubscriptionConfigurationMsgReceived(args);
+               qDebug() << "SubscriptionConfiguration";
             }
             else if (rootNode == "TrackReport") {
                emit OnTrackReportMsgReceived(args);
+               qDebug() << "TrackReport";
             }
 
         }
-    }
-    else
-    // Invalid message
-    {
-        MessageReceivedEventArgs args(currXML, "", "");
-        emit OnInvalidMsgReceived(args);
+        else
+        // Invalid message
+        {
+            MessageReceivedEventArgs args(currXML, "", "");
+            emit OnInvalidMsgReceived(args);
+            qDebug() << "InvalidMsgReceived";
+        }
+
+        // remove current XML from buffer
+        msgBuffer.remove(0, idx+11);
+
+        // In rest of buffer try to find ENDOFXML again
+        idx = msgBuffer.indexOf("<ENDOFXML/>");
     }
 
 
 }
 
-bool XMLComm::validateMsg(QString msg)
+bool XMLComm::validateMsg(QByteArray msg)
 {
     // Convert XML string to QDomDocument
     QDomDocument doc;
@@ -142,11 +175,17 @@ bool XMLComm::validateMsg(QString msg)
     }
 
     // get root of current XML
-    rootNode = doc.documentElement().text();
+	QDomElement root = doc.documentElement();
+	rootNode = root.tagName();
+	//rootNode = doc.documentElement().text();
     // find path to schema files
     QDir schema_dir = QDir::current();
-    schema_dir.cd("../Schema");
-    QString schema_path = schema_dir.currentPath() + "/" + rootNode + ".xsd";
+	schema_dir.cdUp();
+    schema_dir.cd("Schema");
+
+    QString schema_path = schema_dir.path() + "/" + rootNode + ".xsd";
+
+    //QString schema_path = "C:/Users/cofib/Desktop/simple_shema.xsd";
 
     // open current schema
     QFile schemaFile(schema_path);
@@ -157,18 +196,22 @@ bool XMLComm::validateMsg(QString msg)
     }
 
     // read schemaFile with readAll(). Read caracters are in a Ucf8 format
-    const QByteArray schemaData = schemaFile.readAll();
+    //const QByteArray schemaData = schemaFile.readAll();
+
     // convert msg to Ucf8 format
-    const QByteArray instanceData = msg.toUtf8();
+    //const QByteArray instanceData = msg.toUtf8();
 
     // instance of handler
     MessageHandler messageHandler;
 
     QXmlSchema schema;
-    schema.setMessageHandler(&messageHandler);
 
+    schema.setMessageHandler(&messageHandler);
     // load to schema schema data
-    schema.load(schemaData);
+    if (schema.load(&schemaFile, QUrl::fromLocalFile(schemaFile.fileName())) == true)
+        qDebug() << "schema is valid";
+    else
+        qDebug() << "schema is invalid";
 
     bool errorOccurred = false;
     // is schema valid
@@ -177,7 +220,7 @@ bool XMLComm::validateMsg(QString msg)
     } else {
         // validate schema
         QXmlSchemaValidator validator(schema);
-        if (!validator.validate(instanceData))
+        if (!validator.validate(msg))
             errorOccurred = true;
     }
 

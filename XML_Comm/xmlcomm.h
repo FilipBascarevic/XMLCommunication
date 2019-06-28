@@ -92,10 +92,10 @@ class XMLComm : public QObject
     Q_OBJECT
 
     QTcpSocket *tcpSocket;
+    QTcpServer *tcpServer;
     quint16 port_m;
-    QDataStream in;
-    QString msgBuffer;
-    QString currXML;
+    QByteArray msgBuffer;
+    QByteArray currXML;
     QString rootNode;
 
 public:
@@ -108,10 +108,12 @@ public:
 
 private:
     Q_SLOT void readData();
-    bool validateMsg(QString msg);
+    bool validateMsg(QByteArray msg);
 
 public slots:
-    void connected();
+    void onConnect();
+    void onNewConnection();
+    void onDisconnect();
 
 public:
     Q_SIGNAL void OnDeviceStatusReceived(MessageReceivedEventArgs &);

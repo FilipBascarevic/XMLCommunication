@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_XMLComm_t {
-    QByteArrayData data[16];
-    char stringdata0[372];
+    QByteArrayData data[19];
+    char stringdata0[411];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -46,7 +46,10 @@ QT_MOC_LITERAL(11, 255, 33), // "OnPlatformStatusReportMsgRece..."
 QT_MOC_LITERAL(12, 289, 38), // "OnSubscriptionConfigurationMs..."
 QT_MOC_LITERAL(13, 328, 24), // "OnTrackReportMsgReceived"
 QT_MOC_LITERAL(14, 353, 9), // "OnMsgSent"
-QT_MOC_LITERAL(15, 363, 8) // "readData"
+QT_MOC_LITERAL(15, 363, 8), // "readData"
+QT_MOC_LITERAL(16, 372, 9), // "onConnect"
+QT_MOC_LITERAL(17, 382, 15), // "onNewConnection"
+QT_MOC_LITERAL(18, 398, 12) // "onDisconnect"
 
     },
     "XMLComm\0OnDeviceStatusReceived\0\0"
@@ -60,7 +63,8 @@ QT_MOC_LITERAL(15, 363, 8) // "readData"
     "OnPlatformStatusReportMsgReceived\0"
     "OnSubscriptionConfigurationMsgReceived\0"
     "OnTrackReportMsgReceived\0OnMsgSent\0"
-    "readData"
+    "readData\0onConnect\0onNewConnection\0"
+    "onDisconnect"
 };
 #undef QT_MOC_LITERAL
 
@@ -70,7 +74,7 @@ static const uint qt_meta_data_XMLComm[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      13,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -78,21 +82,24 @@ static const uint qt_meta_data_XMLComm[] = {
       12,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   79,    2, 0x06 /* Public */,
-       4,    1,   82,    2, 0x06 /* Public */,
-       5,    1,   85,    2, 0x06 /* Public */,
-       6,    1,   88,    2, 0x06 /* Public */,
-       7,    1,   91,    2, 0x06 /* Public */,
-       8,    1,   94,    2, 0x06 /* Public */,
-       9,    1,   97,    2, 0x06 /* Public */,
-      10,    1,  100,    2, 0x06 /* Public */,
-      11,    1,  103,    2, 0x06 /* Public */,
-      12,    1,  106,    2, 0x06 /* Public */,
-      13,    1,  109,    2, 0x06 /* Public */,
-      14,    1,  112,    2, 0x06 /* Public */,
+       1,    1,   94,    2, 0x06 /* Public */,
+       4,    1,   97,    2, 0x06 /* Public */,
+       5,    1,  100,    2, 0x06 /* Public */,
+       6,    1,  103,    2, 0x06 /* Public */,
+       7,    1,  106,    2, 0x06 /* Public */,
+       8,    1,  109,    2, 0x06 /* Public */,
+       9,    1,  112,    2, 0x06 /* Public */,
+      10,    1,  115,    2, 0x06 /* Public */,
+      11,    1,  118,    2, 0x06 /* Public */,
+      12,    1,  121,    2, 0x06 /* Public */,
+      13,    1,  124,    2, 0x06 /* Public */,
+      14,    1,  127,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      15,    0,  115,    2, 0x08 /* Private */,
+      15,    0,  130,    2, 0x08 /* Private */,
+      16,    0,  131,    2, 0x0a /* Public */,
+      17,    0,  132,    2, 0x0a /* Public */,
+      18,    0,  133,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    2,
@@ -109,6 +116,9 @@ static const uint qt_meta_data_XMLComm[] = {
     QMetaType::Void, 0x80000000 | 3,    2,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -133,6 +143,9 @@ void XMLComm::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 10: _t->OnTrackReportMsgReceived((*reinterpret_cast< MessageReceivedEventArgs(*)>(_a[1]))); break;
         case 11: _t->OnMsgSent((*reinterpret_cast< MessageReceivedEventArgs(*)>(_a[1]))); break;
         case 12: _t->readData(); break;
+        case 13: _t->onConnect(); break;
+        case 14: _t->onNewConnection(); break;
+        case 15: _t->onDisconnect(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -253,13 +266,13 @@ int XMLComm::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 13)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 13;
+        _id -= 16;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 13)
+        if (_id < 16)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 13;
+        _id -= 16;
     }
     return _id;
 }
