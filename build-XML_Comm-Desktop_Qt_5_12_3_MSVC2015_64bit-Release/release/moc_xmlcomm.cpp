@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_XMLComm_t {
-    QByteArrayData data[20];
-    char stringdata0[434];
+    QByteArrayData data[19];
+    char stringdata0[411];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,31 +32,29 @@ struct qt_meta_stringdata_XMLComm_t {
 static const qt_meta_stringdata_XMLComm_t qt_meta_stringdata_XMLComm = {
     {
 QT_MOC_LITERAL(0, 0, 7), // "XMLComm"
-QT_MOC_LITERAL(1, 8, 20), // "DeviceStatusReceived"
-QT_MOC_LITERAL(2, 29, 0), // ""
-QT_MOC_LITERAL(3, 30, 24), // "MessageReceivedEventArgs"
-QT_MOC_LITERAL(4, 55, 29), // "OnDeviceConfigurationReceived"
-QT_MOC_LITERAL(5, 85, 25), // "MessageReceivedEventArgs&"
-QT_MOC_LITERAL(6, 111, 25), // "OnDeviceDetectionReceived"
-QT_MOC_LITERAL(7, 137, 33), // "OnDeviceInitializationMsgRece..."
-QT_MOC_LITERAL(8, 171, 27), // "OnGeometryReportMsgReceived"
-QT_MOC_LITERAL(9, 199, 20), // "OnCommandMsgReceived"
-QT_MOC_LITERAL(10, 220, 20), // "OnInvalidMsgReceived"
-QT_MOC_LITERAL(11, 241, 36), // "OnPlatformDetectionReportMsgR..."
-QT_MOC_LITERAL(12, 278, 33), // "OnPlatformStatusReportMsgRece..."
-QT_MOC_LITERAL(13, 312, 38), // "OnSubscriptionConfigurationMs..."
-QT_MOC_LITERAL(14, 351, 24), // "OnTrackReportMsgReceived"
-QT_MOC_LITERAL(15, 376, 9), // "OnMsgSent"
-QT_MOC_LITERAL(16, 386, 8), // "readData"
-QT_MOC_LITERAL(17, 395, 9), // "onConnect"
-QT_MOC_LITERAL(18, 405, 15), // "onNewConnection"
-QT_MOC_LITERAL(19, 421, 12) // "onDisconnect"
+QT_MOC_LITERAL(1, 8, 22), // "OnDeviceStatusReceived"
+QT_MOC_LITERAL(2, 31, 0), // ""
+QT_MOC_LITERAL(3, 32, 25), // "MessageReceivedEventArgs&"
+QT_MOC_LITERAL(4, 58, 29), // "OnDeviceConfigurationReceived"
+QT_MOC_LITERAL(5, 88, 25), // "OnDeviceDetectionReceived"
+QT_MOC_LITERAL(6, 114, 33), // "OnDeviceInitializationMsgRece..."
+QT_MOC_LITERAL(7, 148, 27), // "OnGeometryReportMsgReceived"
+QT_MOC_LITERAL(8, 176, 20), // "OnCommandMsgReceived"
+QT_MOC_LITERAL(9, 197, 20), // "OnInvalidMsgReceived"
+QT_MOC_LITERAL(10, 218, 36), // "OnPlatformDetectionReportMsgR..."
+QT_MOC_LITERAL(11, 255, 33), // "OnPlatformStatusReportMsgRece..."
+QT_MOC_LITERAL(12, 289, 38), // "OnSubscriptionConfigurationMs..."
+QT_MOC_LITERAL(13, 328, 24), // "OnTrackReportMsgReceived"
+QT_MOC_LITERAL(14, 353, 9), // "OnMsgSent"
+QT_MOC_LITERAL(15, 363, 8), // "readData"
+QT_MOC_LITERAL(16, 372, 9), // "onConnect"
+QT_MOC_LITERAL(17, 382, 15), // "onNewConnection"
+QT_MOC_LITERAL(18, 398, 12) // "onDisconnect"
 
     },
-    "XMLComm\0DeviceStatusReceived\0\0"
-    "MessageReceivedEventArgs\0"
-    "OnDeviceConfigurationReceived\0"
+    "XMLComm\0OnDeviceStatusReceived\0\0"
     "MessageReceivedEventArgs&\0"
+    "OnDeviceConfigurationReceived\0"
     "OnDeviceDetectionReceived\0"
     "OnDeviceInitializationMsgReceived\0"
     "OnGeometryReportMsgReceived\0"
@@ -86,36 +84,36 @@ static const uint qt_meta_data_XMLComm[] = {
  // signals: name, argc, parameters, tag, flags
        1,    1,   94,    2, 0x06 /* Public */,
        4,    1,   97,    2, 0x06 /* Public */,
-       6,    1,  100,    2, 0x06 /* Public */,
-       7,    1,  103,    2, 0x06 /* Public */,
-       8,    1,  106,    2, 0x06 /* Public */,
-       9,    1,  109,    2, 0x06 /* Public */,
-      10,    1,  112,    2, 0x06 /* Public */,
-      11,    1,  115,    2, 0x06 /* Public */,
-      12,    1,  118,    2, 0x06 /* Public */,
-      13,    1,  121,    2, 0x06 /* Public */,
-      14,    1,  124,    2, 0x06 /* Public */,
-      15,    1,  127,    2, 0x06 /* Public */,
+       5,    1,  100,    2, 0x06 /* Public */,
+       6,    1,  103,    2, 0x06 /* Public */,
+       7,    1,  106,    2, 0x06 /* Public */,
+       8,    1,  109,    2, 0x06 /* Public */,
+       9,    1,  112,    2, 0x06 /* Public */,
+      10,    1,  115,    2, 0x06 /* Public */,
+      11,    1,  118,    2, 0x06 /* Public */,
+      12,    1,  121,    2, 0x06 /* Public */,
+      13,    1,  124,    2, 0x06 /* Public */,
+      14,    1,  127,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      16,    0,  130,    2, 0x08 /* Private */,
-      17,    0,  131,    2, 0x0a /* Public */,
-      18,    0,  132,    2, 0x0a /* Public */,
-      19,    0,  133,    2, 0x0a /* Public */,
+      15,    0,  130,    2, 0x08 /* Private */,
+      16,    0,  131,    2, 0x0a /* Public */,
+      17,    0,  132,    2, 0x0a /* Public */,
+      18,    0,  133,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    2,
-    QMetaType::Void, 0x80000000 | 5,    2,
-    QMetaType::Void, 0x80000000 | 5,    2,
-    QMetaType::Void, 0x80000000 | 5,    2,
-    QMetaType::Void, 0x80000000 | 5,    2,
-    QMetaType::Void, 0x80000000 | 5,    2,
-    QMetaType::Void, 0x80000000 | 5,    2,
-    QMetaType::Void, 0x80000000 | 5,    2,
-    QMetaType::Void, 0x80000000 | 5,    2,
-    QMetaType::Void, 0x80000000 | 5,    2,
-    QMetaType::Void, 0x80000000 | 5,    2,
-    QMetaType::Void, 0x80000000 | 5,    2,
+    QMetaType::Void, 0x80000000 | 3,    2,
+    QMetaType::Void, 0x80000000 | 3,    2,
+    QMetaType::Void, 0x80000000 | 3,    2,
+    QMetaType::Void, 0x80000000 | 3,    2,
+    QMetaType::Void, 0x80000000 | 3,    2,
+    QMetaType::Void, 0x80000000 | 3,    2,
+    QMetaType::Void, 0x80000000 | 3,    2,
+    QMetaType::Void, 0x80000000 | 3,    2,
+    QMetaType::Void, 0x80000000 | 3,    2,
+    QMetaType::Void, 0x80000000 | 3,    2,
+    QMetaType::Void, 0x80000000 | 3,    2,
 
  // slots: parameters
     QMetaType::Void,
@@ -132,7 +130,7 @@ void XMLComm::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         auto *_t = static_cast<XMLComm *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->DeviceStatusReceived((*reinterpret_cast< const MessageReceivedEventArgs(*)>(_a[1]))); break;
+        case 0: _t->OnDeviceStatusReceived((*reinterpret_cast< MessageReceivedEventArgs(*)>(_a[1]))); break;
         case 1: _t->OnDeviceConfigurationReceived((*reinterpret_cast< MessageReceivedEventArgs(*)>(_a[1]))); break;
         case 2: _t->OnDeviceDetectionReceived((*reinterpret_cast< MessageReceivedEventArgs(*)>(_a[1]))); break;
         case 3: _t->OnDeviceInitializationMsgReceived((*reinterpret_cast< MessageReceivedEventArgs(*)>(_a[1]))); break;
@@ -150,22 +148,11 @@ void XMLComm::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 15: _t->onDisconnect(); break;
         default: ;
         }
-    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        switch (_id) {
-        default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 0:
-            switch (*reinterpret_cast<int*>(_a[1])) {
-            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-            case 0:
-                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< MessageReceivedEventArgs >(); break;
-            }
-            break;
-        }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (XMLComm::*)(const MessageReceivedEventArgs & );
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&XMLComm::DeviceStatusReceived)) {
+            using _t = void (XMLComm::*)(MessageReceivedEventArgs & );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&XMLComm::OnDeviceStatusReceived)) {
                 *result = 0;
                 return;
             }
@@ -284,14 +271,14 @@ int XMLComm::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         _id -= 16;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         if (_id < 16)
-            qt_static_metacall(this, _c, _id, _a);
+            *reinterpret_cast<int*>(_a[0]) = -1;
         _id -= 16;
     }
     return _id;
 }
 
 // SIGNAL 0
-void XMLComm::DeviceStatusReceived(const MessageReceivedEventArgs & _t1)
+void XMLComm::OnDeviceStatusReceived(MessageReceivedEventArgs & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

@@ -4,39 +4,13 @@
 #include <QObject>
 #include <QTcpSocket>
 #include <QHostAddress>
-#include <QDebug>
 #include <QDataStream>
 #include <QDomDocument>
 #include <QDir>
 #include <QtXmlPatterns>
 
-//---------------------------------------------------------------------------------------
-/// <summary>
-/// MessageReceivedEventArgs
-/// Public class for interfacing with MainForm
-/// </summary>
-//---------------------------------------------------------------------------------------
-class MessageReceivedEventArgs
-{
-  public:
-    QString Message;
-    QString MessageName;
-    QString Info;
+#include "received_args.h"
 
-    enum MessageType_e
-    {
-     CommandMsg,
-     DeviceConfigurationMsg
-    };
-
-    MessageReceivedEventArgs(QString msg, QString msg_name, QString info)
-    {
-     Message = msg;
-     MessageName = msg_name;
-     Info = info;
-    }
-
-}; // End MessageReceivedEventArgs class
 
 //---------------------------------------------------------------------------------------
 // Handler is used in validation process
@@ -116,7 +90,7 @@ public slots:
     void onDisconnect();
 
 public:
-    Q_SIGNAL void OnDeviceStatusReceived(MessageReceivedEventArgs &);
+    Q_SIGNAL void DeviceStatusReceived(const MessageReceivedEventArgs &);
     Q_SIGNAL void OnDeviceConfigurationReceived(MessageReceivedEventArgs &);
     Q_SIGNAL void OnDeviceDetectionReceived(MessageReceivedEventArgs &);
     Q_SIGNAL void OnDeviceInitializationMsgReceived(MessageReceivedEventArgs &);

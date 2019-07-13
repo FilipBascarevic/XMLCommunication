@@ -104,7 +104,7 @@ Q_SLOT void XMLComm::readData()
 
             // DeviceStatusReport
             if (rootNode == "DeviceStatusReport") {
-                emit OnDeviceStatusReceived(args);
+                emit DeviceStatusReceived(args);
                 qDebug() << "DeviceStatusReport";
             }
             // DeviceConfiguration
